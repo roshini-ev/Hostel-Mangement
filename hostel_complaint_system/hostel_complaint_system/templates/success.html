@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Complaint submitted — Hostel Desk{% endblock %}
+{% block content %}
+  <div class="card" style="max-width: 560px;">
+    <h2>Your complaint has been logged</h2>
+    <p>Save this tracking code — you'll need it to check on progress.</p>
+    <div class="code-block">{{ code }}</div>
+    <p style="margin-top: 20px;">
+      <a class="btn btn-primary" href="{{ url_for('track') }}">Track this complaint</a>
+      <a class="btn btn-ghost" href="{{ url_for('index') }}">Report another issue</a>
+    </p>
+  </div>
+{% endblock %}

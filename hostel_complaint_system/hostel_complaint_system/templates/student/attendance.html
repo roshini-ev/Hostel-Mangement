@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Attendance{% endblock %}
+{% block page_title %}Attendance{% endblock %}
+
+{% block content %}
+<!-- Overview Stats -->
+<div class="stats-grid" style="margin-bottom: 1rem;">
+  <div class="stat-card">
+    <div class="stat-info">
+      <div class="label">Academic Year</div>
+      <div class="value" style="color: #007bff;">Year {{ student.year }}</div>
+      <div class="meta"><span>Undergraduate (Years 1 to 4)</span></div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-info">
+      <div class="label">Roll Call Timing</div>
+      <div class="value">5:30 PM</div>
+      <div class="meta"><span>Daily Evening</span></div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-info">
+      <div class="label">Recorded Days</div>
+      <div class="value">{{ history|length }} Days</div>
+      <div class="meta"><span>Current Term</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Daily Log -->
+<div class="card">
+  <div class="card-header">
+    <h3>Attendance Log</h3>
+    <span class="badge badge-neutral">Read-only</span>
+  </div>
+  <div class="card-body" style="padding: 0;">
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Room</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in history %}
+            <tr>
+              <td><strong>{{ record.date }}</strong></td>
+              <td>Room {{ student.room_number }}</td>
+              <td>
+                {% if record.status == 'Present' %}
+                  <span class="badge badge-success">Present</span>
+                {% elif record.status == 'Absent' %}
+                  <span class="badge badge-danger">Absent</span>
+                {% else %}
+                  <span class="badge badge-neutral">{{ record.status }}</span>
+                {% endif %}
+              </td>
+            </tr>
+          {% else %}
+            <tr><td colspan="3" class="empty-state">No attendance logs.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

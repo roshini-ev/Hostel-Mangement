@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}Room Transfer Request | Student Portal{% endblock %}
+{% block page_title %}Hostel Room Re-Allocation & Transfer{% endblock %}
+{% block breadcrumb %}Room Transfer{% endblock %}
+
+{% block content %}
+<div class="grid-1-2">
+  <!-- Left Column: Current Status -->
+  <div>
+    <div class="card">
+      <div class="card-header">
+        <h3>Current Allotment</h3>
+      </div>
+      <div class="card-body" style="font-size: 0.88rem; line-height: 1.8;">
+        <div><span style="color: var(--text-subtle);">Hostel Wing:</span> <strong>Block B (Junior Boys)</strong></div>
+        <div><span style="color: var(--text-subtle);">Floor:</span> <strong>3rd Floor</strong></div>
+        <div><span style="color: var(--text-subtle);">Room Number:</span> <strong>Room 302</strong></div>
+        <div><span style="color: var(--text-subtle);">Bed Slot:</span> <strong>Bed 1 (Window Side)</strong></div>
+        <div><span style="color: var(--text-subtle);">Room Type:</span> <strong>Double Standard Non-AC</strong></div>
+        <div><span style="color: var(--text-subtle);">Roommate:</span> <strong>Kunal Verma (2024MEB1021)</strong></div>
+      </div>
+    </div>
+
+    <!-- Transfer Regulations -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Transfer Guidelines</h3>
+      </div>
+      <div class="card-body" style="font-size: 0.82rem; line-height: 1.6; color: var(--text-muted);">
+        <p style="margin-bottom: 0.5rem;">&bull; Room transfers are reviewed by the Chief Warden based on genuine academic need, medical conditions, or mutual roommate consent.</p>
+        <p style="margin-bottom: 0.5rem;">&bull; Any difference in room tariff (e.g. Non-AC to AC) will be billed via a supplementary invoice.</p>
+        <p>&bull; Processing time: 3 to 5 business days upon vacancy verification.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Column: Transfer Application Form -->
+  <div>
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h3>Submit Room Re-Allocation Application</h3>
+          <p>Subject to Warden verification and target room vacancy clearance</p>
+        </div>
+      </div>
+      <form method="POST" action="{{ url_for('student_transfer') }}" onsubmit="event.preventDefault(); HMS.showToast('Room transfer application TR-2026-081 submitted. Currently under Warden review.', 'success'); setTimeout(() => location.reload(), 600);">
+        <div class="card-body">
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Preferred Target Wing <span class="required">*</span></label>
+              <select class="form-select" required>
+                <option value="Block A">Block A (Senior Boys Wing)</option>
+                <option value="Block B">Block B (Different Floor in Junior Wing)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Preferred Room Type <span class="required">*</span></label>
+              <select class="form-select" required>
+                <option value="Single AC">Single Deluxe AC (₹ 70,000 / Sem)</option>
+                <option value="Double Non-AC">Double Standard Non-AC (₹ 52,000 / Sem)</option>
+                <option value="Triple Economy">Triple Shared Economy (₹ 45,000 / Sem)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Primary Reason for Transfer Request <span class="required">*</span></label>
+            <select class="form-select" required>
+              <option>Academic & Competitive Coding (Needs quiet single room)</option>
+              <option>Medical Condition / Physical Injury (Requires lower floor)</option>
+              <option>Mutual Roommate Exchange with Consent</option>
+              <option>Personal Incompatibility / Noise disturbance</option>
+              <option>Other / Special Consideration</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Mutual Transfer Partner Roll No. (Optional)</label>
+            <input type="text" class="form-control" placeholder="e.g. 2024CSB1019 (if swapping beds mutually)">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Detailed Justification</label>
+            <textarea class="form-textarea" style="min-height: 100px;" placeholder="Please provide specific context to assist the Warden in deciding your allotment..." required>Preparation for placement coding hackathons; require a quiet study environment.</textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Supporting Endorsement Document (Optional)</label>
+            <input type="file" class="form-control">
+            <div class="form-hint">Medical certificate, faculty recommendation, or mutual consent slip.</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div style="font-size: 0.8rem; color: var(--text-subtle);">
+            Application will be forwarded to Dr. K. S. Venkatesh (Chief Warden)
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <span>Submit Transfer Application</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Active Request Status Tracker -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h3>Application Status Tracker</h3>
+          <p>Application Ref: <strong>TR-2026-081</strong></p>
+        </div>
+        <span class="badge badge-warning"><span class="badge-dot"></span> Under Review</span>
+      </div>
+      <div class="card-body">
+        <div style="font-size: 0.86rem; line-height: 1.6;">
+          <div><strong>Requested Target:</strong> Block A &bull; Single Deluxe AC</div>
+          <div><strong>Submission Timestamp:</strong> 11-Sep-2026, 10:45 AM</div>
+          <div><strong>Current Stage:</strong> Vacancy verification in Block A by Hostel Office</div>
+          <div style="margin-top: 0.75rem; background: var(--bg-surface-muted); padding: 0.65rem 0.85rem; border-radius: var(--radius-sm); border-left: 3px solid #f59e0b; font-size: 0.82rem;">
+            <strong>Warden Office Note:</strong> A single deluxe room (Room 204) is scheduled for maintenance release next Monday. Decision will be finalized by Tuesday.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

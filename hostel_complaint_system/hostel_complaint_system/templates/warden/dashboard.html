@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<!-- Warden Identity Strip -->
+<div class="card" style="margin-bottom: 1rem;">
+  <div class="card-body" style="padding: 1rem 1.25rem;">
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div class="collegiate-avatar" style="width: 42px; height: 42px; font-size: 1.05rem;">W</div>
+        <div>
+          <h2 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 2px;">Dr. K. S. Venkatesh</h2>
+          <div style="font-size: 0.8rem; color: var(--text-secondary); display: flex; align-items: center; gap: 0.4rem;">
+            <span>Hostel Warden</span>
+            <span>&bull;</span>
+            <span>Single Block</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+        <a href="{{ url_for('warden_attendance') }}" class="btn btn-outline btn-sm">
+          <span>Attendance</span>
+        </a>
+        <a href="{{ url_for('warden_announcements') }}" class="btn btn-primary btn-sm">
+          <span>Post Notice</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Key Metrics Grid -->
+<div class="stats-grid" style="margin-bottom: 1rem;">
+  <div class="stat-card">
+    <div class="stat-info">
+      <div class="label">Students</div>
+      <div class="value">{{ total_students }}</div>
+      <div class="meta"><a href="{{ url_for('warden_students') }}">View List &rarr;</a></div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-info">
+      <div class="label">Rooms</div>
+      <div class="value">{{ total_rooms }}</div>
+      <div class="meta"><span>3 Room Types</span></div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-info">
+      <div class="label">Pending Outpasses</div>
+      <div class="value">{{ pending_leaves|length }}</div>
+      <div class="meta">
+        {% if pending_leaves|length > 0 %}
+          <span class="badge badge-amber">Action Needed</span>
+        {% else %}
+          <span class="badge badge-success">Clear</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-info">
+      <div class="label">Open Complaints</div>
+      <div class="value">{{ pending_complaints|length }}</div>
+      <div class="meta">
+        {% if pending_complaints|length > 0 %}
+          <span class="badge badge-info">Open</span>
+        {% else %}
+          <span class="badge badge-success">All Solved</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2-Column: Pending Outpasses & Recent Complaints -->
+<div class="grid-2" style="margin-bottom: 1rem;">
+  <!-- Pending Outpasses -->
+  <div class="card">
+    <div class="card-header">
+      <h3>Pending Outpasses</h3>
+      <a href="{{ url_for('warden_leaves') }}" class="btn btn-outline btn-sm">All &rarr;</a>
+    </div>
+    <div class="card-body" style="padding: 0;">
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Room</th>
+              <th>Dates</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for leave in pending_leaves[:4] %}
+              <tr>
+                <td>
+                  <strong>{{ leave.student_name }}</strong>
+                  <div style="font-size: 0.72rem; color: var(--text-muted);">{{ leave.student_id }}</div>
+                </td>
+                <td>Room {{ leave.room_number }}</td>
+                <td>
+                  <div style="font-size: 0.78rem;">{{ leave.start_date }}</div>
+                  <div style="font-size: 0.7rem; color: var(--text-muted);">to {{ leave.end_date }}</div>
+                </td>
+                <td>
+                  <div style="display: flex; gap: 4px;">
+                    <form method="POST" action="{{ url_for('warden_action_leave', leave_id=leave.id, action='approve') }}" style="display:inline;">
+                      <button type="submit" class="btn btn-primary btn-sm" style="padding: 2px 7px; font-size: 0.74rem;">Approve</button>
+                    </form>
+                    <form method="POST" action="{{ url_for('warden_action_leave', leave_id=leave.id, action='reject') }}" style="display:inline;">
+                      <button type="submit" class="btn btn-outline btn-sm" style="padding: 2px 7px; font-size: 0.74rem; color: #dc2626;">Reject</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            {% else %}
+              <tr><td colspan="4" class="empty-state">No pending outpasses.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Open Complaints -->
+  <div class="card">
+    <div class="card-header">
+      <h3>Open Complaints</h3>
+      <a href="{{ url_for('warden_complaints') }}" class="btn btn-outline btn-sm">All &rarr;</a>
+    </div>
+    <div class="card-body" style="padding: 0;">
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Room</th>
+              <th>Category</th>
+              <th>Description</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for comp in pending_complaints[:4] %}
+              <tr>
+                <td><strong>Room {{ comp.room_number }}</strong></td>
+                <td><span class="badge badge-neutral">{{ comp.category }}</span></td>
+                <td style="max-width: 160px; font-size: 0.8rem; color: var(--text-secondary);">
+                  {{ comp.description }}
+                </td>
+                <td>
+                  {% if comp.status == 'In Progress' %}
+                    <span class="badge badge-info">In Progress</span>
+                  {% else %}
+                    <span class="badge badge-neutral">Submitted</span>
+                  {% endif %}
+                </td>
+              </tr>
+            {% else %}
+              <tr><td colspan="4" class="empty-state">No open complaints.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

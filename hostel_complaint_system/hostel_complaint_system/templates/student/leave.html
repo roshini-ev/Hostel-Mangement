@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Outpass{% endblock %}
+{% block page_title %}Outpass{% endblock %}
+
+{% block content %}
+<div class="grid-2-1">
+  <!-- Outpass History -->
+  <div>
+    <div class="card">
+      <div class="card-header">
+        <h3>My Outpass Requests</h3>
+        <span class="badge badge-neutral">{{ leaves|length }} Total</span>
+      </div>
+      <div class="card-body" style="padding: 0;">
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Dates</th>
+                <th>Reason</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for leave in leaves %}
+                <tr>
+                  <td><strong>{{ leave.leave_type|replace('Leave', 'Outpass') }}</strong></td>
+                  <td>
+                    <div style="font-size: 0.82rem;">{{ leave.start_date }}</div>
+                    <div style="font-size: 0.72rem; color: var(--text-muted);">to {{ leave.end_date }}</div>
+                  </td>
+                  <td style="max-width: 180px; font-size: 0.82rem; color: var(--text-secondary);">
+                    {{ leave.reason }}
+                  </td>
+                  <td>
+                    {% if leave.status == 'Approved' %}
+                      <span class="badge badge-success">Approved</span>
+                    {% elif leave.status == 'Pending' %}
+                      <span class="badge badge-amber">Pending</span>
+                    {% elif leave.status == 'Rejected' %}
+                      <span class="badge badge-danger">Rejected</span>
+                    {% else %}
+                      <span class="badge badge-neutral">{{ leave.status }}</span>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% else %}
+                <tr><td colspan="4" class="empty-state">No outpass applications yet.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Apply for Outpass Form -->
+  <div>
+    <div class="card">
+      <div class="card-header">
+        <h3>Apply for Outpass</h3>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('student_leave') }}">
+          <div class="form-group">
+            <label class="form-label" for="leave_type">Outpass Type</label>
+            <select class="form-select" id="leave_type" name="leave_type" required>
+              <option value="Home Visit" selected>Home Visit</option>
+              <option value="Medical Outpass">Medical Outpass</option>
+              <option value="Academic">Academic</option>
+              <option value="Personal">Personal</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="start_date">Start Date</label>
+            <input type="date" class="form-control" id="start_date" name="start_date" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="end_date">End Date</label>
+            <input type="date" class="form-control" id="end_date" name="end_date" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reason">Reason</label>
+            <textarea class="form-control" id="reason" name="reason" rows="3" placeholder="Enter reason..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+            <span>Submit Application</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}Students{% endblock %}
+{% block page_title %}Students{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h3>Resident Students</h3>
+    <span class="badge badge-neutral">{{ students|length }} Students</span>
+  </div>
+
+  <!-- Search & Filter Bar -->
+  <div class="card-body" style="padding-bottom: 0.75rem;">
+    <form method="GET" action="{{ url_for('warden_students') }}" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+      <div style="flex: 1; min-width: 180px;">
+        <input type="text" name="q" value="{{ search_q }}" class="form-control" placeholder="Search by name, ID, or room..." autocomplete="off">
+      </div>
+      <div style="min-width: 150px;">
+        <select name="year" class="form-select" onchange="this.form.submit()">
+          <option value="all" {% if selected_year == 'all' or not selected_year %}selected{% endif %}>All Years (1–4)</option>
+          <option value="1" {% if selected_year == '1' %}selected{% endif %}>1st Year (Year 1)</option>
+          <option value="2" {% if selected_year == '2' %}selected{% endif %}>2nd Year (Year 2)</option>
+          <option value="3" {% if selected_year == '3' %}selected{% endif %}>3rd Year (Year 3)</option>
+          <option value="4" {% if selected_year == '4' %}selected{% endif %}>4th Year (Year 4)</option>
+        </select>
+      </div>
+      <div style="min-width: 160px;">
+        <select name="room_type" class="form-select" onchange="this.form.submit()">
+          <option value="all" {% if selected_room_type == 'all' %}selected{% endif %}>All Room Types</option>
+          {% for rt in room_types %}
+            <option value="{{ rt }}" {% if selected_room_type == rt %}selected{% endif %}>{{ rt }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary btn-sm">Search</button>
+      {% if search_q or selected_room_type != 'all' or (selected_year and selected_year != 'all') %}
+        <a href="{{ url_for('warden_students') }}" class="btn btn-outline btn-sm">Clear</a>
+      {% endif %}
+    </form>
+  </div>
+
+  <!-- Table -->
+  <div class="card-body" style="padding: 0;">
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>ID</th>
+            <th>Dept</th>
+            <th>Year (1–4)</th>
+            <th>Phone</th>
+            <th>Room</th>
+            <th>Room Type</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for student in students %}
+            <tr>
+              <td><strong>{{ student.name }}</strong></td>
+              <td><code>{{ student.student_id }}</code></td>
+              <td>{{ student.dept }}</td>
+              <td><span class="badge badge-neutral" style="font-weight: 600;">Year {{ student.year }}</span></td>
+              <td>{{ student.phone }}</td>
+              <td><span class="badge badge-neutral">Room {{ student.room_number }}</span></td>
+              <td style="font-size: 0.8rem;">{{ student.room_type }}</td>
+              <td>
+                <button type="button" class="btn btn-outline btn-sm view-student-btn"
+                  data-name="{{ student.name }}"
+                  data-id="{{ student.student_id }}"
+                  data-dept="{{ student.dept }}"
+                  data-year="Year {{ student.year }} (Academic Year)"
+                  data-phone="{{ student.phone }}"
+                  data-room="Room {{ student.room_number }}"
+                  data-roomtype="{{ student.room_type }}"
+                  data-att="{{ student.attendance_pct }}%">
+                  View
+                </button>
+              </td>
+            </tr>
+          {% else %}
+            <tr><td colspan="8" class="empty-state">No students found.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Student Detail Modal -->
+<div class="modal-backdrop" id="modal-student-detail">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h3 id="m-student-name">Student Record</h3>
+      <button type="button" class="modal-close-btn" data-modal-close>&times;</button>
+    </div>
+    <div class="modal-body">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
+        <div>
+          <div class="profile-meta-label">ID</div>
+          <div class="profile-meta-val" id="m-student-id">-</div>
+        </div>
+        <div>
+          <div class="profile-meta-label">Phone</div>
+          <div class="profile-meta-val" id="m-student-phone">-</div>
+        </div>
+        <div>
+          <div class="profile-meta-label">Department</div>
+          <div class="profile-meta-val" id="m-student-dept">-</div>
+        </div>
+        <div>
+          <div class="profile-meta-label">Year</div>
+          <div class="profile-meta-val" id="m-student-year">-</div>
+        </div>
+        <div>
+          <div class="profile-meta-label">Room</div>
+          <div class="profile-meta-val" id="m-student-room">-</div>
+        </div>
+        <div>
+          <div class="profile-meta-label">Type</div>
+          <div class="profile-meta-val" id="m-student-roomtype">-</div>
+        </div>
+      </div>
+      <div style="padding: 0.5rem 0.75rem; background: var(--bg-surface-subtle); border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.8rem; font-weight: 600;">Attendance:</span>
+        <span class="badge badge-success" id="m-student-att">-</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary btn-sm" data-modal-close>Close</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.view-student-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById('m-student-name').textContent = btn.getAttribute('data-name');
+      document.getElementById('m-student-id').textContent = btn.getAttribute('data-id');
+      document.getElementById('m-student-phone').textContent = btn.getAttribute('data-phone');
+      document.getElementById('m-student-dept').textContent = btn.getAttribute('data-dept');
+      document.getElementById('m-student-year').textContent = btn.getAttribute('data-year');
+      document.getElementById('m-student-room').textContent = btn.getAttribute('data-room');
+      document.getElementById('m-student-roomtype').textContent = btn.getAttribute('data-roomtype');
+      document.getElementById('m-student-att').textContent = btn.getAttribute('data-att');
+      openModal('modal-student-detail');
+    });
+  });
+});
+</script>
+{% endblock %}

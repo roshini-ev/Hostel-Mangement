@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Mess Menu, Notices & Rules | Student Portal{% endblock %}
+{% block page_title %}Hostel Dining Schedule & Resident Notices{% endblock %}
+{% block breadcrumb %}Mess & Notices{% endblock %}
+
+{% block content %}
+<div class="tabs-wrapper">
+  <div class="tabs-nav">
+    <button class="tab-btn active" data-tab="student-menu">Weekly Residential Dining Menu (7 Days)</button>
+    <button class="tab-btn" data-tab="student-notices">Official Hostel Circulars & Notices</button>
+    <button class="tab-btn" data-tab="student-rules">Hostel Living Rules & Code of Conduct</button>
+  </div>
+
+  <!-- Tab 1: Mess Menu -->
+  <div class="tab-content active" id="student-menu">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h3>Hostel Dining Menu & Caterer Timetable (Monsoon Term 2026)</h3>
+          <p>Meal timings: Breakfast (07:30–09:30), Lunch (12:30–14:30), Tea (17:00–18:15), Dinner (19:45–21:45)</p>
+        </div>
+        <span class="badge badge-success">Mess Committee Approved</span>
+      </div>
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Day of Week</th>
+              <th>Breakfast</th>
+              <th>Lunch</th>
+              <th>High Tea & Snacks</th>
+              <th>Dinner</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for day, m in mess_menu.items() %}
+            <tr {% if day == 'Friday' %}style="background-color: rgba(37, 99, 235, 0.06); font-weight: 500;"{% endif %}>
+              <td>
+                <strong>{{ day }}</strong>
+                {% if day == 'Friday' %}<br><span class="badge badge-success" style="font-size: 0.65rem;">Today</span>{% endif %}
+              </td>
+              <td>{{ m.breakfast }}</td>
+              <td>{{ m.lunch }}</td>
+              <td>{{ m.snacks }}</td>
+              <td>{{ m.dinner }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer" style="font-size: 0.8rem; color: var(--text-subtle);">
+        * Special Sunday Feast includes Gulab Jamun & Ice Cream. For sick diet (Khichdi & Curd), submit request before 05:00 PM.
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 2: Circulars -->
+  <div class="tab-content" id="student-notices">
+    <div style="display: flex; flex-direction: column; gap: 1.15rem;">
+      {% for n in notices %}
+      <div class="card" style="margin-bottom: 0;">
+        <div class="card-header">
+          <div style="display: flex; align-items: center; gap: 0.65rem;">
+            {% if n.priority == 'Urgent' %}
+              <span class="badge badge-danger"><span class="badge-dot"></span> URGENT CIRCULAR</span>
+            {% else %}
+              <span class="badge badge-info"><span class="badge-dot"></span> GENERAL NOTICE</span>
+            {% endif %}
+            <h3 style="margin-bottom: 0; font-size: 1rem;">{{ n.title }}</h3>
+          </div>
+          <div style="font-size: 0.78rem; color: var(--text-subtle);">
+            Published: <strong>{{ n.date }}</strong> &bull; By: {{ n.author }}
+          </div>
+        </div>
+        <div class="card-body" style="font-size: 0.88rem; line-height: 1.6;">
+          <p>{{ n.content }}</p>
+          {% if n.attachment %}
+            <div style="margin-top: 0.75rem; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.65rem; background: var(--bg-surface-muted); border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); font-size: 0.78rem;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+              <span>{{ n.attachment }}</span>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Tab 3: Rules -->
+  <div class="tab-content" id="student-rules">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h3>Hostel Residential Regulations & Student Undertaking</h3>
+          <p>Mandatory standards of conduct for all resident boarders</p>
+        </div>
+      </div>
+      <div class="card-body" style="font-size: 0.88rem; line-height: 1.8;">
+        <ul style="padding-left: 1.25rem;">
+          <li><strong>Curfew Adherence:</strong> Every student must return to their hostel block before 10:00 PM on weekdays and 10:30 PM on weekends.</li>
+          <li><strong>Zero Tolerance for Ragging:</strong> Any form of ragging, intimidation, or physical harassment is a punishable offense under National Anti-Ragging Acts.</li>
+          <li><strong>Noise & Quiet Hours:</strong> Mandatory quiet hours commence from 11:00 PM to 06:00 AM. Loud music and disruptions in corridors are prohibited.</li>
+          <li><strong>Cleanliness & Waste Segregation:</strong> Wet and dry waste must be deposited into the designated floor bins.</li>
+          <li><strong>Energy Conservation:</strong> Turn off room lights, fans, and study lamps when leaving the room.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

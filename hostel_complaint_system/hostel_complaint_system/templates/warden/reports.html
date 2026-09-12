@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics & Administrative Reports | Warden Portal{% endblock %}
+{% block page_title %}Hostel Analytics, Audits & Expenditure Reports{% endblock %}
+{% block breadcrumb %}Reports & Analytics{% endblock %}
+
+{% block content %}
+<!-- Top Action Bar -->
+<div class="filter-bar">
+  <div style="font-size: 0.92rem; font-weight: 700; color: var(--text-main);">
+    Reporting Period: Academic Year 2026-27 &bull; Monsoon Term
+  </div>
+  <div class="filter-group">
+    <button class="btn btn-outline btn-sm" onclick="window.print()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      <span>Print Report Dossier</span>
+    </button>
+    <button class="btn btn-primary btn-sm" onclick="HMS.showToast('Exporting comprehensive audit data to Excel', 'success')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <span>Export Full Dataset (.XLSX)</span>
+    </button>
+  </div>
+</div>
+
+<!-- 2-Column Analytics Charts -->
+<div class="grid-2">
+  <!-- Chart 1: Monthly Fee Inflow -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h3>Semester Fee Realization (INR in Lakhs)</h3>
+        <p>Monthly fee inflow vs scheduled targets</p>
+      </div>
+      <span class="badge badge-success">97.8% Realized</span>
+    </div>
+    <div class="card-body">
+      <div style="height: 190px; display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; padding-top: 1.5rem;">
+        <!-- June -->
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+          <div style="font-size: 0.75rem; font-weight: 700;">₹ 18.2L</div>
+          <div style="width: 100%; height: 60px; background: #cbd5e1; border-radius: 4px 4px 0 0;"></div>
+          <div style="font-size: 0.72rem; color: var(--text-subtle);">Jun</div>
+        </div>
+        <!-- July -->
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+          <div style="font-size: 0.75rem; font-weight: 700;">₹ 68.5L</div>
+          <div style="width: 100%; height: 160px; background: #2563eb; border-radius: 4px 4px 0 0;"></div>
+          <div style="font-size: 0.72rem; color: var(--text-subtle);">Jul (Admissions)</div>
+        </div>
+        <!-- August -->
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+          <div style="font-size: 0.75rem; font-weight: 700;">₹ 48.1L</div>
+          <div style="width: 100%; height: 120px; background: #3b82f6; border-radius: 4px 4px 0 0;"></div>
+          <div style="font-size: 0.72rem; color: var(--text-subtle);">Aug</div>
+        </div>
+        <!-- September -->
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+          <div style="font-size: 0.75rem; font-weight: 700;">₹ 18.4L</div>
+          <div style="width: 100%; height: 65px; background: #60a5fa; border-radius: 4px 4px 0 0;"></div>
+          <div style="font-size: 0.72rem; color: var(--text-subtle);">Sep (Current)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart 2: Maintenance Expenditure by Category -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h3>Maintenance & Repair Costs Breakdown</h3>
+        <p>Total expenditure: ₹ 1,42,800 this semester</p>
+      </div>
+      <span class="badge badge-info">Within Budget</span>
+    </div>
+    <div class="card-body">
+      <div style="display: flex; flex-direction: column; gap: 1rem; padding: 0.5rem 0;">
+        <div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.84rem; margin-bottom: 0.25rem;">
+            <span>Electrical Spares & Servicing</span>
+            <strong>₹ 48,200 (33.8%)</strong>
+          </div>
+          <div style="height: 8px; background: var(--bg-surface-muted); border-radius: 4px; overflow: hidden;">
+            <div style="width: 33.8%; height: 100%; background: #2563eb;"></div>
+          </div>
+        </div>
+
+        <div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.84rem; margin-bottom: 0.25rem;">
+            <span>Plumbing & Bathroom Fittings</span>
+            <strong>₹ 36,400 (25.5%)</strong>
+          </div>
+          <div style="height: 8px; background: var(--bg-surface-muted); border-radius: 4px; overflow: hidden;">
+            <div style="width: 25.5%; height: 100%; background: #059669;"></div>
+          </div>
+        </div>
+
+        <div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.84rem; margin-bottom: 0.25rem;">
+            <span>Carpentry & Furniture Repairs</span>
+            <strong>₹ 28,100 (19.7%)</strong>
+          </div>
+          <div style="height: 8px; background: var(--bg-surface-muted); border-radius: 4px; overflow: hidden;">
+            <div style="width: 19.7%; height: 100%; background: #d97706;"></div>
+          </div>
+        </div>
+
+        <div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.84rem; margin-bottom: 0.25rem;">
+            <span>WiFi Fiber & Network AP Replacement</span>
+            <strong>₹ 21,500 (15.0%)</strong>
+          </div>
+          <div style="height: 8px; background: var(--bg-surface-muted); border-radius: 4px; overflow: hidden;">
+            <div style="width: 15.0%; height: 100%; background: #6366f1;"></div>
+          </div>
+        </div>
+
+        <div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.84rem; margin-bottom: 0.25rem;">
+            <span>Sanitation & Pest Fumigation</span>
+            <strong>₹ 8,600 (6.0%)</strong>
+          </div>
+          <div style="height: 8px; background: var(--bg-surface-muted); border-radius: 4px; overflow: hidden;">
+            <div style="width: 6.0%; height: 100%; background: #64748b;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Attendance & Visitor Audit Metrics -->
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h3>Hostel Discipline & Attendance Analytics by Wing</h3>
+      <p>Average night roll call percentage over the last 30 days</p>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Residential Wing</th>
+          <th>Total Residents</th>
+          <th>Average Attendance</th>
+          <th>Weekend Outflow (Outpasses)</th>
+          <th>Curfew Infractions</th>
+          <th>Security Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Block A (Senior Boys)</strong></td>
+          <td>96 Students</td>
+          <td><strong style="color: #059669;">95.8%</strong></td>
+          <td>18% on weekends</td>
+          <td>2 instances (Resolved)</td>
+          <td><span class="badge badge-success">Exemplary</span></td>
+        </tr>
+        <tr>
+          <td><strong>Block B (Junior Boys)</strong></td>
+          <td>112 Students</td>
+          <td><strong style="color: #059669;">97.2%</strong></td>
+          <td>12% on weekends</td>
+          <td>0 instances</td>
+          <td><span class="badge badge-success">High Compliance</span></td>
+        </tr>
+        <tr>
+          <td><strong>Block C (Girls Wing 1)</strong></td>
+          <td>68 Students</td>
+          <td><strong style="color: #059669;">96.5%</strong></td>
+          <td>14% on weekends</td>
+          <td>0 instances</td>
+          <td><span class="badge badge-success">High Compliance</span></td>
+        </tr>
+        <tr>
+          <td><strong>Block D (Girls Wing 2)</strong></td>
+          <td>66 Students</td>
+          <td><strong style="color: #059669;">95.9%</strong></td>
+          <td>15% on weekends</td>
+          <td>1 instance (Counseled)</td>
+          <td><span class="badge badge-success">High Compliance</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

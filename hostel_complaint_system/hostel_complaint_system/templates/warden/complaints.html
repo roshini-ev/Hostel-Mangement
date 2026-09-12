@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Maintenance Complaints{% endblock %}
+{% block page_title %}Complaints & Repairs{% endblock %}
+{% block breadcrumb %}Complaints{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h3>Maintenance Complaints</h3>
+    </div>
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+      <a href="{{ url_for('warden_complaints', status='all') }}" class="btn btn-sm {% if selected_status == 'all' %}btn-primary{% else %}btn-outline{% endif %}">
+        All ({{ complaints|length }})
+      </a>
+      <a href="{{ url_for('warden_complaints', status='submitted') }}" class="btn btn-sm {% if selected_status == 'submitted' %}btn-primary{% else %}btn-outline{% endif %}">
+        Submitted
+      </a>
+      <a href="{{ url_for('warden_complaints', status='in progress') }}" class="btn btn-sm {% if selected_status == 'in progress' %}btn-primary{% else %}btn-outline{% endif %}">
+        In Progress
+      </a>
+      <a href="{{ url_for('warden_complaints', status='resolved') }}" class="btn btn-sm {% if selected_status == 'resolved' %}btn-primary{% else %}btn-outline{% endif %}">
+        Resolved
+      </a>
+    </div>
+  </div>
+
+  <div class="card-body" style="padding: 0;">
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Student / Room</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th style="min-width: 170px;">Update</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for comp in complaints %}
+            <tr>
+              <td><code>#CMP-{{ comp.id }}</code></td>
+              <td>
+                <div style="font-weight: 600; color: var(--text-main);">{{ comp.student_name }}</div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">Room {{ comp.room_number }}</div>
+              </td>
+              <td>
+                <span class="badge badge-neutral" style="font-weight: 600;">{{ comp.category }}</span>
+              </td>
+              <td style="max-width: 250px; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.45;">
+                {{ comp.description }}
+              </td>
+              <td style="font-size: 0.8rem; color: var(--text-muted);">
+                {{ comp.created_on }}
+              </td>
+              <td>
+                {% if comp.status == 'Resolved' %}
+                  <span class="badge badge-success"><span class="badge-dot"></span> Resolved</span>
+                {% elif comp.status == 'In Progress' %}
+                  <span class="badge badge-info"><span class="badge-dot"></span> In Progress</span>
+                {% else %}
+                  <span class="badge badge-neutral"><span class="badge-dot"></span> Submitted</span>
+                {% endif %}
+              </td>
+              <td>
+                <form method="POST" action="{{ url_for('warden_update_complaint', complaint_id=comp.id) }}" style="display: flex; gap: 0.4rem; align-items: center;">
+                  <select name="status" class="form-select" style="padding: 4px 8px; font-size: 0.8rem; height: 32px;">
+                    <option value="Submitted" {% if comp.status == 'Submitted' %}selected{% endif %}>Submitted</option>
+                    <option value="In Progress" {% if comp.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                    <option value="Resolved" {% if comp.status == 'Resolved' %}selected{% endif %}>Resolved</option>
+                  </select>
+                  <button type="submit" class="btn btn-outline btn-sm" style="padding: 4px 8px; height: 32px; font-size: 0.75rem;">
+                    Save
+                  </button>
+                </form>
+              </td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="7" class="empty-state">No complaints found for the selected status.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

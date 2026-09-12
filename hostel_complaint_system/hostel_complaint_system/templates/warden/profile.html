@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Warden Profile{% endblock %}
+{% block page_title %}Warden Profile{% endblock %}
+{% block breadcrumb %}Profile{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 800px; margin: 0 auto;">
+  <div class="card-header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <div class="collegiate-avatar" style="width: 48px; height: 48px; font-size: 1.2rem;">
+        W
+      </div>
+      <div>
+        <h3 style="margin: 0; font-size: 1.15rem;">Dr. K. S. Venkatesh</h3>
+        <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary);">Chief Warden</p>
+      </div>
+    </div>
+    <span class="badge badge-success"><span class="badge-dot"></span> Active</span>
+  </div>
+
+  <div class="card-body">
+    <h4 style="font-size: 0.95rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.5rem;">
+      Administrative Details
+    </h4>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+      <div>
+        <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 0.2rem;">Designation</div>
+        <div style="font-size: 0.95rem; font-weight: 500; color: var(--text-main);">Chief Warden & Associate Professor</div>
+      </div>
+      <div>
+        <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 0.2rem;">Employee ID</div>
+        <div style="font-size: 0.95rem; font-weight: 500; color: var(--text-main);"><code>EMP-WARDEN-002</code></div>
+      </div>
+      <div>
+        <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 0.2rem;">Hostel Block</div>
+        <div style="font-size: 0.95rem; font-weight: 500; color: var(--text-main);">Main Block</div>
+      </div>
+      <div>
+        <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 0.2rem;">Office</div>
+        <div style="font-size: 0.95rem; font-weight: 500; color: var(--text-main);">Admin Wing, Room 102</div>
+      </div>
+      <div>
+        <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 0.2rem;">Phone</div>
+        <div style="font-size: 0.95rem; font-weight: 500; color: var(--text-main);">+91 98450 11223</div>
+      </div>
+      <div>
+        <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 0.2rem;">Email</div>
+        <div style="font-size: 0.95rem; font-weight: 500; color: var(--text-main);">warden@rit.edu</div>
+      </div>
+    </div>
+
+    <h4 style="font-size: 0.95rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.5rem;">
+      Hostel Guidelines
+    </h4>
+    <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
+      <ul style="margin: 0; padding-left: 1.25rem;">
+        <li>Night roll call daily at <strong>05:30 PM</strong>.</li>
+        <li>Hostel gates close at <strong>10:00 PM</strong> (10:30 PM weekends).</li>
+        <li>Outstation outpasses require Warden approval before departure.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

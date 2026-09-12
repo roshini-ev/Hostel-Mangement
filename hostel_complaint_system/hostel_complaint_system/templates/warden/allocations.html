@@ -1,0 +1,304 @@
+{% extends "base.html" %}
+
+{% block title %}Allocations & Room Transfers | Warden Portal{% endblock %}
+{% block page_title %}Room Allotment & Transfers Management{% endblock %}
+{% block breadcrumb %}Allocations{% endblock %}
+
+{% block content %}
+<!-- Allocation Top Metrics -->
+<div class="stats-grid">
+  <div class="stat-card emerald">
+    <div class="stat-info">
+      <div class="label">Allotted Beds</div>
+      <div class="value">342</div>
+      <div class="meta">Zero duplicate assignments</div>
+    </div>
+    <div class="stat-icon-wrap">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg>
+    </div>
+  </div>
+
+  <div class="stat-card indigo">
+    <div class="stat-info">
+      <div class="label">Available Vacancies</div>
+      <div class="value">38</div>
+      <div class="meta">Verified clean & ready</div>
+    </div>
+    <div class="stat-icon-wrap">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+    </div>
+  </div>
+
+  <div class="stat-card amber">
+    <div class="stat-info">
+      <div class="label">Transfer Requests</div>
+      <div class="value">3</div>
+      <div class="meta"><span class="badge badge-warning">Awaiting Decision</span></div>
+    </div>
+    <div class="stat-icon-wrap">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+    </div>
+  </div>
+
+  <div class="stat-card rose">
+    <div class="stat-info">
+      <div class="label">Vacated This Month</div>
+      <div class="value">6</div>
+      <div class="meta">Clearance signed</div>
+    </div>
+    <div class="stat-icon-wrap">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    </div>
+  </div>
+</div>
+
+<!-- Toolbar -->
+<div class="filter-bar">
+  <div style="font-size: 0.92rem; font-weight: 700; color: var(--text-main);">
+    Active Transfer Requests & Automated Vacancy Control
+  </div>
+  <div class="filter-group">
+    <button type="button" class="btn btn-primary" data-modal-target="modal-allocate-bed">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <span>Assign Vacant Bed Slot</span>
+    </button>
+    <button type="button" class="btn btn-outline" data-modal-target="modal-vacate-room">
+      <span>Vacate & Clear Room</span>
+    </button>
+  </div>
+</div>
+
+<!-- Transfer Requests Table -->
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h3>Pending Room Transfer Applications</h3>
+      <p>Student requests for room changes, medical adaptations, and roommate adjustments</p>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Application ID</th>
+          <th>Student Name</th>
+          <th>Current Allotment</th>
+          <th>Target Preference</th>
+          <th>Reason Stated</th>
+          <th>Medical / Academic Endorsement</th>
+          <th>Status</th>
+          <th style="text-align: right;">Warden Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="transfer-row-301">
+          <td><strong>TR-2026-081</strong></td>
+          <td>
+            <div style="font-weight: 600;">Aarav Sharma</div>
+            <div style="font-size: 0.74rem; color: var(--text-subtle);">2024CSB1042</div>
+          </td>
+          <td>Block B - 302 (Bed 1)</td>
+          <td>Block A - Single Deluxe AC</td>
+          <td>Preparation for competitive placement coding; requires quiet study space</td>
+          <td><span class="badge badge-info">Faculty Guide Approved</span></td>
+          <td><span class="badge badge-warning"><span class="badge-dot"></span> Under Review</span></td>
+          <td style="text-align: right;">
+            <div class="btn-group">
+              <button class="btn btn-success btn-sm" onclick="approveTransfer(301, 'Aarav Sharma', 'Block A - 204')">Approve Transfer</button>
+              <button class="btn btn-danger btn-sm" onclick="rejectTransfer(301, 'Aarav Sharma')">Decline</button>
+            </div>
+          </td>
+        </tr>
+        <tr id="transfer-row-302">
+          <td><strong>TR-2026-079</strong></td>
+          <td>
+            <div style="font-weight: 600;">Kavya Menon</div>
+            <div style="font-size: 0.74rem; color: var(--text-subtle);">2024CSB1098</div>
+          </td>
+          <td>Block C - 312 (Floor 3)</td>
+          <td>Block C - Ground Floor</td>
+          <td>Sprained ankle in inter-hostel badminton tournament; unable to climb stairs</td>
+          <td><span class="badge badge-success">Hostel Doctor Endorsed</span></td>
+          <td><span class="badge badge-warning"><span class="badge-dot"></span> Under Review</span></td>
+          <td style="text-align: right;">
+            <div class="btn-group">
+              <button class="btn btn-success btn-sm" onclick="approveTransfer(302, 'Kavya Menon', 'Block C - 105')">Approve Transfer</button>
+              <button class="btn btn-danger btn-sm" onclick="rejectTransfer(302, 'Kavya Menon')">Decline</button>
+            </div>
+          </td>
+        </tr>
+        <tr id="transfer-row-303">
+          <td><strong>TR-2026-074</strong></td>
+          <td>
+            <div style="font-weight: 600;">Tanmay Joshi</div>
+            <div style="font-size: 0.74rem; color: var(--text-subtle);">2025MEB1015</div>
+          </td>
+          <td>Block B - 110 (Triple)</td>
+          <td>Block B - Double Non-AC</td>
+          <td>Mutual exchange with friend in Section B</td>
+          <td><span class="badge badge-neutral">Mutual Consent Form Attached</span></td>
+          <td><span class="badge badge-warning"><span class="badge-dot"></span> Under Review</span></td>
+          <td style="text-align: right;">
+            <div class="btn-group">
+              <button class="btn btn-success btn-sm" onclick="approveTransfer(303, 'Tanmay Joshi', 'Block B - 208')">Approve Transfer</button>
+              <button class="btn btn-danger btn-sm" onclick="rejectTransfer(303, 'Tanmay Joshi')">Decline</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Allocation History & Audit Trail -->
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h3>Recent Allocation & Vacancy Audit Log</h3>
+      <p>Automated vacancy tracking and room assignment history</p>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Date & Time</th>
+          <th>Student</th>
+          <th>Event Type</th>
+          <th>Source / Destination</th>
+          <th>Authorized By</th>
+          <th>System Verification</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>10-Sep-2026 11:30 AM</td>
+          <td>Aditya Nair (2025EEB1033)</td>
+          <td><span class="badge badge-success">New Allotment</span></td>
+          <td>Allotted Block B - Room 303 (Bed 1)</td>
+          <td>Dr. K. S. Venkatesh</td>
+          <td><span class="badge badge-neutral">Bed Verified Vacant</span></td>
+        </tr>
+        <tr>
+          <td>08-Sep-2026 04:15 PM</td>
+          <td>Siddharth Roy (2023MEB1001)</td>
+          <td><span class="badge badge-neutral">Room Vacated</span></td>
+          <td>Vacated Block A - Room 410 (Bed 1)</td>
+          <td>Hostel Estate Office</td>
+          <td><span class="badge badge-success">Inventory Cleaned</span></td>
+        </tr>
+        <tr>
+          <td>05-Sep-2026 02:20 PM</td>
+          <td>Pooja (2024ECB1055)</td>
+          <td><span class="badge badge-info">Inter-Wing Transfer</span></td>
+          <td>Block D-104 &rarr; Block D-205</td>
+          <td>Warden In-Charge</td>
+          <td><span class="badge badge-neutral">Keys Handed Over</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal: Allocate Bed to Student -->
+<div class="modal-backdrop" id="modal-allocate-bed">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h3>Allocate Room & Bed Slot</h3>
+      <button type="button" class="modal-close-btn" data-modal-close>&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label" for="alloc-student-select">Select Student / Resident <span class="required">*</span></label>
+        <select class="form-select" id="alloc-student-select" required>
+          <option value="Devansh Joshi">Devansh Joshi (2024CSB1012) - Unallotted</option>
+          <option value="Siddharth Mehta">Siddharth Mehta (2025CSB1088) - New Admission</option>
+          <option value="Rahul Verma">Rahul Verma (2026MEB1044) - Exchange Student</option>
+        </select>
+        <div class="form-hint">System automatically checks for existing bed assignments to prevent double booking.</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Select Verified Vacant Bed Slot <span class="required">*</span></label>
+        <select class="form-select" id="alloc-bed-slot">
+          <option value="Block B - 303 (Bed 3)">Block B - 303 (Bed 3 &bull; Triple Shared) - Available</option>
+          <option value="Block A - 205 (Bed 2)">Block A - 205 (Bed 2 &bull; Double Non-AC) - Available</option>
+          <option value="Block C - 108 (Bed 1)">Block C - 108 (Bed 1 &bull; Double Non-AC) - Available</option>
+          <option value="Block D - 202 (Bed 2)">Block D - 202 (Bed 2 &bull; Double Non-AC) - Available</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Effective Allotment Date</label>
+        <input type="date" class="form-control" value="2026-09-11">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Special Notes / Medical Accommodation</label>
+        <textarea class="form-textarea" placeholder="e.g. Ground floor preferred due to respiratory sensitivity or physical preference."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+      <button type="button" class="btn btn-primary" onclick="HMS.allocateBed('Block B - 303', 'Bed 3')">Confirm & Update Vacancy</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Vacate Room -->
+<div class="modal-backdrop" id="modal-vacate-room">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h3>Hostel Resident Vacate & Clearance</h3>
+      <button type="button" class="modal-close-btn" data-modal-close>&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Resident to Vacate</label>
+        <select class="form-select">
+          <option>Aarav Sharma - Block B-302 (Bed 1)</option>
+          <option>Kunal Verma - Block B-302 (Bed 2)</option>
+          <option>Rohan Deshmukh - Block A-214 (Bed 1)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Inventory & Amenity Verification</label>
+        <div style="display:flex; flex-direction:column; gap:0.4rem; font-size:0.85rem;">
+          <label><input type="checkbox" checked> Room keys (2 Sets) deposited at office</label>
+          <label><input type="checkbox" checked> Cupboard, desk, and chair inspection passed</label>
+          <label><input type="checkbox" checked> Electrical switchboard & ceiling fan intact</label>
+          <label><input type="checkbox" checked> All semester mess and hostel dues settled (Zero Dues)</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+      <button type="button" class="btn btn-danger" onclick="HMS.showToast('Room marked as Vacant and returned to ready pool', 'success'); HMS.closeModal('modal-vacate-room');">
+        Execute Clearance & Mark Vacant
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function approveTransfer(id, student, dest) {
+  HMS.showToast('Transfer for ' + student + ' approved to ' + dest + '. System updated vacancy.', 'success');
+  const row = document.getElementById('transfer-row-' + id);
+  if (row) {
+    row.querySelector('.badge.badge-warning').outerHTML = '<span class="badge badge-success"><span class="badge-dot"></span> Approved & Re-allocated</span>';
+    row.querySelector('.btn-group').innerHTML = '<span class="badge badge-neutral">Executed</span>';
+  }
+}
+
+function rejectTransfer(id, student) {
+  HMS.showToast('Transfer request for ' + student + ' was declined.', 'error');
+  const row = document.getElementById('transfer-row-' + id);
+  if (row) {
+    row.querySelector('.badge.badge-warning').outerHTML = '<span class="badge badge-danger"><span class="badge-dot"></span> Declined</span>';
+    row.querySelector('.btn-group').innerHTML = '<span class="badge badge-neutral">Closed</span>';
+  }
+}
+</script>
+{% endblock %}

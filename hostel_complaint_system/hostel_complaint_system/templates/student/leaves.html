@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Outpass Applications & Gate Pass | Student Portal{% endblock %}
+{% block page_title %}Outstation Outpasses & Gate Permits{% endblock %}
+{% block breadcrumb %}Outpasses & Gate Pass{% endblock %}
+
+{% block content %}
+<div class="filter-bar">
+  <div>
+    <h3 style="font-size: 1rem; margin-bottom: 2px;">My Outpass Applications & Curfew Permissions</h3>
+    <p style="font-size: 0.8rem; color: var(--text-subtle); margin: 0;">Automated gate pass clearances verified against Warden authorization</p>
+  </div>
+  <button type="button" class="btn btn-primary" data-modal-target="modal-apply-leave">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    <span>Apply for Outpass / Gate Pass</span>
+  </button>
+</div>
+
+<!-- Active Gate Pass Highlight Card (if any approved) -->
+<div class="card" style="border: 2px dashed #059669; background: rgba(16, 185, 129, 0.03);">
+  <div class="card-header" style="background: transparent;">
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+      <span class="badge badge-success"><span class="badge-dot"></span> APPROVED GATE PASS</span>
+      <strong>PASS-2026-LP092 &bull; Weekend Home Outpass</strong>
+    </div>
+    <button class="btn btn-outline btn-sm" onclick="window.print()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      <span>Print Gate Permit</span>
+    </button>
+  </div>
+  <div class="card-body">
+    <div class="grid-2" style="align-items: center;">
+      <div style="font-size: 0.88rem; line-height: 1.8;">
+        <div><strong>Resident:</strong> Aarav Sharma (2024CSB1042 &bull; Block B-302)</div>
+        <div><strong>Valid Out-Time:</strong> Friday, 12-Sep-2026, from 04:00 PM onwards</div>
+        <div><strong>Mandatory Return:</strong> Sunday, 14-Sep-2026, before 05:30 PM Roll Call</div>
+        <div><strong>Parent Consent:</strong> Verified via SMS to +91 94440 12345 (Rajesh Sharma)</div>
+        <div><strong>Approving Authority:</strong> Dr. K. S. Venkatesh (Chief Warden)</div>
+      </div>
+      <div style="text-align: center; border-left: 1px solid var(--border-subtle); padding: 1rem;">
+        <!-- Simulated QR Gate Code -->
+        <div style="width: 110px; height: 110px; margin: 0 auto; background: #ffffff; border: 2px solid #0f172a; padding: 6px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;">
+          <div style="background:#000;"></div><div style="background:#000;"></div><div style="background:#fff;"></div><div style="background:#000;"></div>
+          <div style="background:#000;"></div><div style="background:#fff;"></div><div style="background:#000;"></div><div style="background:#000;"></div>
+          <div style="background:#fff;"></div><div style="background:#000;"></div><div style="background:#000;"></div><div style="background:#fff;"></div>
+          <div style="background:#000;"></div><div style="background:#fff;"></div><div style="background:#fff;"></div><div style="background:#000;"></div>
+        </div>
+        <div style="font-size: 0.75rem; font-weight: 700; margin-top: 0.5rem; color: #065f46;">
+          SCAN AT MAIN GATE BIOMETRIC DESK
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Outpass History Table -->
+<div class="card">
+  <div class="card-header">
+    <h3>Outpass History & Status Logs</h3>
+  </div>
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Permit ID</th>
+          <th>Outpass Type</th>
+          <th>Departure Window</th>
+          <th>Return Window</th>
+          <th>Destination & Purpose</th>
+          <th>Parent Status</th>
+          <th>Warden Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>LP-092</strong></td>
+          <td><span class="badge badge-info">Weekend Home</span></td>
+          <td>12-Sep-2026, 04:00 PM</td>
+          <td>14-Sep-2026, 05:30 PM</td>
+          <td>Jaipur Residence (Family Gathering)</td>
+          <td><span class="badge badge-success">&#10003; Verified</span></td>
+          <td><span class="badge badge-success">&#10003; Approved</span></td>
+        </tr>
+        <tr>
+          <td><strong>LP-084</strong></td>
+          <td><span class="badge badge-neutral">Night Out Pass</span></td>
+          <td>29-Aug-2026, 07:00 PM</td>
+          <td>30-Aug-2026, 06:00 AM</td>
+          <td>College Hackathon (Campus Lab Complex)</td>
+          <td><span class="badge badge-info">Faculty Letter</span></td>
+          <td><span class="badge badge-success">&#10003; Completed</span></td>
+        </tr>
+        <tr>
+          <td><strong>LP-071</strong></td>
+          <td><span class="badge badge-neutral">Medical Outpass</span></td>
+          <td>10-Aug-2026, 09:00 AM</td>
+          <td>12-Aug-2026, 08:00 PM</td>
+          <td>Dental Surgery at City Hospital</td>
+          <td><span class="badge badge-success">&#10003; Medical Cert</span></td>
+          <td><span class="badge badge-success">&#10003; Completed</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal: Apply Outpass -->
+<div class="modal-backdrop" id="modal-apply-leave">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-header">
+      <h3>Apply for Hostel Outstation / Night Outpass</h3>
+      <button type="button" class="modal-close-btn" data-modal-close>&times;</button>
+    </div>
+    <form method="POST" action="{{ url_for('student_leaves') }}" onsubmit="event.preventDefault(); HMS.showToast('Outpass request submitted to Warden Office. Gate pass pending parental verification.', 'success'); HMS.closeModal('modal-apply-leave'); setTimeout(() => location.reload(), 600);">
+      <div class="modal-body">
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Type of Outpass Permit <span class="required">*</span></label>
+            <select class="form-select" required>
+              <option value="Weekend Home">Weekend Home Outpass (Parent Consent Required)</option>
+              <option value="Night Out">Night Out Pass (Lab / Project)</option>
+              <option value="Medical">Medical / Hospital Consultation</option>
+              <option value="Academic">Academic Conference / Fest Representation</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Destination City / Address <span class="required">*</span></label>
+            <input type="text" class="form-control" placeholder="e.g. Home Address, Jaipur" required>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Departure Date & Time <span class="required">*</span></label>
+            <input type="datetime-local" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Expected Return Date & Time <span class="required">*</span></label>
+            <input type="datetime-local" class="form-control" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Parent / Guardian Verification Mobile</label>
+          <input type="tel" class="form-control" value="+91 94440 12345 (Rajesh Sharma)" readonly>
+          <div class="form-hint">Automated confirmation SMS with security OTP will be dispatched to this number upon submission.</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Detailed Reason for Outpass</label>
+          <textarea class="form-textarea" placeholder="Provide reason for warden endorsement..." required></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+        <button type="submit" class="btn btn-primary">Dispatch Outpass Application</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

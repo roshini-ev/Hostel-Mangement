@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In | RIT Hostel{% endblock %}
+
+{% block auth_content %}
+<div style="width: 100%; max-width: 420px; margin: 0 auto;">
+  <!-- Flashed Messages on Auth Page -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div style="margin-bottom: 14px;">
+        {% for category, message in messages %}
+          <div class="toast {{ category }}" style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; box-shadow: var(--shadow-sm);">
+            <span class="toast-dot"></span>
+            <span style="font-size: 12.5px;">{{ message }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="card" style="box-shadow: var(--shadow-sm); border: 1px solid var(--border-medium); background: #ffffff; border-radius: var(--radius-md); overflow: hidden;">
+    <div style="padding: 24px 20px 18px; text-align: center; border-bottom: 1px solid var(--border-subtle); background-color: #ffffff;">
+      <img src="{{ url_for('static', filename='images/rit_logo.png') }}" alt="Rajalakshmi Institute of Technology" style="height: 46px; max-width: 220px; object-fit: contain; margin-bottom: 6px;">
+      <p style="font-size: 0.82rem; color: var(--text-secondary); font-weight: 600; margin: 0;">Hostel Management Portal</p>
+    </div>
+
+    <div class="card-body" style="padding: 22px 20px;">
+      <!-- Role Selection Tabs (Switches form only - DOES NOT AUTO-SUBMIT) -->
+      <div style="margin-bottom: 18px;">
+        <label class="form-label" style="margin-bottom: 8px; font-weight: 600;">Choose Your Portal</label>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background-color: #f1f5f9; padding: 4px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+          <button type="button" id="tab-student" onclick="selectRole('student')" 
+                  style="padding: 9px 8px; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            <span>Student Login</span>
+          </button>
+          <button type="button" id="tab-warden" onclick="selectRole('warden')" 
+                  style="padding: 9px 8px; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            <span>Warden Login</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Credential Sign In Form (User enters their own name and password) -->
+      <form method="POST" action="{{ url_for('login') }}" id="login-form">
+        <input type="hidden" name="role" id="login-role" value="{{ selected_role or 'student' }}">
+
+        <div class="form-group">
+          <label class="form-label" for="login-username" id="login-username-label">
+            Student Roll Number / Campus ID
+          </label>
+          <input type="text" class="form-control" id="login-username" name="username" 
+                 placeholder="e.g. 2024CS101 or student" 
+                 value="{{ username or '' }}" 
+                 autocomplete="username" 
+                 autofocus 
+                 required>
+        </div>
+
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <label class="form-label" for="login-password" style="margin-bottom: 0;">Password</label>
+            <a href="{{ url_for('forgot_password') }}" style="font-size: 11.5px;">Forgot Password?</a>
+          </div>
+          <div style="position: relative;">
+            <input type="password" class="form-control" id="login-password" name="password" 
+                   placeholder="Enter your password" 
+                   value="" 
+                   autocomplete="current-password" 
+                   style="padding-right: 38px;"
+                   required>
+            <button type="button" onclick="togglePasswordVisibility()" 
+                    aria-label="Toggle password visibility" 
+                    style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted); padding: 4px;">
+              <svg id="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 18px;">
+          <input type="checkbox" id="remember-me" name="remember" checked>
+          <label for="remember-me" style="font-size: 11.5px; color: var(--text-secondary); margin-bottom: 0;">Keep me signed in</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; height: 40px; font-size: 13.5px; font-weight: 600;">
+          <span>Sign In</span>
+        </button>
+      </form>
+
+      <!-- Reference Box with Test Credentials (Clicking populates the input fields without auto-submitting) -->
+      <div style="margin-top: 18px; padding: 12px; background-color: var(--bg-surface-subtle); border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); font-size: 11.5px; color: var(--text-secondary);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <span style="font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.03em; font-size: 10.5px;">
+            Portal Login Credentials
+          </span>
+          <button type="button" onclick="fillCurrentDemoCredentials()" style="background: none; border: none; color: var(--primary-blue); font-size: 11px; font-weight: 600; cursor: pointer; padding: 0;">
+            Fill into form &rarr;
+          </button>
+        </div>
+        <div id="demo-student-hint">
+          <strong>Student:</strong> Roll No <code style="background: #ffffff; border: 1px solid var(--border-subtle); padding: 2px 5px; border-radius: 4px;">2024CS101</code> (or <code>student</code>) &nbsp;|&nbsp; Pass: <code>student123</code>
+        </div>
+        <div id="demo-warden-hint" style="margin-top: 4px;">
+          <strong>Warden:</strong> Username <code style="background: #ffffff; border: 1px solid var(--border-subtle); padding: 2px 5px; border-radius: 4px;">warden</code> &nbsp;|&nbsp; Pass: <code>admin123</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer" style="justify-content: center; font-size: 11px; color: var(--text-muted); background-color: var(--bg-surface-subtle); padding: 10px 16px;">
+      Residential Life Helpdesk: Ext. 4041 &bull; warden@rit.edu
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentRole = "{{ selected_role or 'student' }}";
+
+  function selectRole(role) {
+    currentRole = role;
+    const roleInput = document.getElementById('login-role');
+    const tabStudent = document.getElementById('tab-student');
+    const tabWarden = document.getElementById('tab-warden');
+    const userLabel = document.getElementById('login-username-label');
+    const userInput = document.getElementById('login-username');
+
+    if (roleInput) roleInput.value = role;
+
+    if (role === 'student') {
+      if (tabStudent) {
+        tabStudent.style.background = '#007bff';
+        tabStudent.style.color = '#ffffff';
+        tabStudent.style.boxShadow = '0 1px 4px rgba(0, 123, 255, 0.3)';
+      }
+      if (tabWarden) {
+        tabWarden.style.background = 'transparent';
+        tabWarden.style.color = '#64748b';
+        tabWarden.style.boxShadow = 'none';
+      }
+      if (userLabel) userLabel.textContent = 'Student Roll Number / Campus ID';
+      if (userInput) userInput.placeholder = 'e.g. 2024CS101 or student';
+    } else {
+      if (tabWarden) {
+        tabWarden.style.background = '#007bff';
+        tabWarden.style.color = '#ffffff';
+        tabWarden.style.boxShadow = '0 1px 4px rgba(0, 123, 255, 0.3)';
+      }
+      if (tabStudent) {
+        tabStudent.style.background = 'transparent';
+        tabStudent.style.color = '#64748b';
+        tabStudent.style.boxShadow = 'none';
+      }
+      if (userLabel) userLabel.textContent = 'Warden Username / Campus ID';
+      if (userInput) userInput.placeholder = 'e.g. warden';
+    }
+  }
+
+  function fillCurrentDemoCredentials() {
+    const userInput = document.getElementById('login-username');
+    const passInput = document.getElementById('login-password');
+    if (currentRole === 'student') {
+      if (userInput) userInput.value = '2024CS101';
+      if (passInput) passInput.value = 'student123';
+    } else {
+      if (userInput) userInput.value = 'warden';
+      if (passInput) passInput.value = 'admin123';
+    }
+  }
+
+  function togglePasswordVisibility() {
+    const passInput = document.getElementById('login-password');
+    if (!passInput) return;
+    if (passInput.type === 'password') {
+      passInput.type = 'text';
+    } else {
+      passInput.type = 'password';
+    }
+  }
+
+  // Initialize role on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    selectRole(currentRole);
+  });
+  selectRole(currentRole);
+</script>
+{% endblock %}

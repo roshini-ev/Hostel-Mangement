@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Announcements{% endblock %}
+{% block page_title %}Announcements{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h3>Hostel Notices</h3>
+    <span class="badge badge-neutral">{{ announcements|length }} Total</span>
+  </div>
+  <div class="card-body">
+    {% if announcements %}
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        {% for ann in announcements %}
+          <div style="padding: 0.85rem 1rem; border: 1px solid var(--border-subtle); border-left: 3px solid {% if ann.is_important %}var(--primary){% else %}var(--border-strong){% endif %}; border-radius: var(--radius-sm); background: var(--bg-surface-subtle);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.35rem; flex-wrap: wrap; gap: 0.4rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-weight: 600; font-size: 0.92rem; color: var(--text-main);">{{ ann.title }}</span>
+                {% if ann.is_important %}
+                  <span class="badge badge-danger">Important</span>
+                {% endif %}
+              </div>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">{{ ann.date }}</span>
+            </div>
+            <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.45; margin: 0;">
+              {{ ann.description }}
+            </p>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">No announcements posted.</div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

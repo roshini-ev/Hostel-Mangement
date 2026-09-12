@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<!-- Student Identity Card -->
+<div class="card" style="margin-bottom: 1rem;">
+  <div class="card-body" style="padding: 1rem 1.25rem;">
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div class="collegiate-avatar" style="width: 42px; height: 42px; font-size: 1rem;">AS</div>
+        <div>
+          <h2 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 2px;">{{ student.name }}</h2>
+          <div style="font-size: 0.8rem; color: var(--text-secondary); display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+            <span>ID: <strong>{{ student.student_id }}</strong></span>
+            <span>&bull;</span>
+            <span>{{ student.dept }}</span>
+            <span>&bull;</span>
+            <span><strong style="color: var(--primary);">Year {{ student.year }}</strong> (Years 1 to 4)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+        <a href="{{ url_for('student_leave') }}" class="btn btn-outline btn-sm">
+          <span>Apply Outpass</span>
+        </a>
+        <a href="{{ url_for('student_complaints') }}" class="btn btn-outline btn-sm">
+          <span>Report Issue</span>
+        </a>
+        <button type="button" class="btn btn-primary btn-sm" onclick="HMS_ChatWidget.open(); return false;">
+          <span>Chatbot</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Key Status Cards -->
+<div class="stats-grid" style="margin-bottom: 1rem;">
+  <!-- Room -->
+  <div class="stat-card">
+    <div class="stat-info">
+      <div class="label">Room</div>
+      <div class="value">Room {{ student.room_number }}</div>
+      <div class="meta"><span>{{ student.room_type }}</span></div>
+    </div>
+  </div>
+
+  <!-- Academic Year (1 to 4) -->
+  <div class="stat-card">
+    <div class="stat-info">
+      <div class="label">Academic Year</div>
+      <div class="value" style="color: #007bff;">Year {{ student.year }}</div>
+      <div class="meta">
+        <span>
+          {% if student.year == 1 %}1st Year (Freshman)
+          {% elif student.year == 2 %}2nd Year (Sophomore)
+          {% elif student.year == 3 %}3rd Year (Junior)
+          {% elif student.year == 4 %}4th Year (Senior)
+          {% else %}Year {{ student.year }}
+          {% endif %}
+          &bull; Years 1 to 4
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Outpass Status -->
+  <div class="stat-card">
+    <div class="stat-info">
+      <div class="label">Latest Outpass</div>
+      {% if latest_leave %}
+        <div class="value" style="font-size: 1.05rem;">{{ latest_leave.leave_type|replace('Leave', 'Outpass') }}</div>
+        <div class="meta">
+          {% if latest_leave.status == 'Approved' %}
+            <span class="badge badge-success">Approved</span>
+          {% elif latest_leave.status == 'Pending' %}
+            <span class="badge badge-amber">Pending</span>
+          {% else %}
+            <span class="badge badge-danger">Rejected</span>
+          {% endif %}
+          <span>{{ latest_leave.start_date }}</span>
+        </div>
+      {% else %}
+        <div class="value" style="font-size: 1rem; color: var(--text-muted);">None</div>
+        <div class="meta"><span>No active outpasses</span></div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Complaint Status -->
+  <div class="stat-card">
+    <div class="stat-info">
+      <div class="label">Latest Complaint</div>
+      {% if latest_complaint %}
+        <div class="value" style="font-size: 1.05rem;">{{ latest_complaint.category }}</div>
+        <div class="meta">
+          {% if latest_complaint.status == 'Resolved' %}
+            <span class="badge badge-success">Resolved</span>
+          {% elif latest_complaint.status == 'In Progress' %}
+            <span class="badge badge-info">In Progress</span>
+          {% else %}
+            <span class="badge badge-neutral">Submitted</span>
+          {% endif %}
+        </div>
+      {% else %}
+        <div class="value" style="font-size: 1rem; color: var(--text-muted);">None</div>
+        <div class="meta"><span>No active issues</span></div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- Announcements -->
+<div class="card">
+  <div class="card-header">
+    <h3>Announcements</h3>
+    <a href="{{ url_for('student_announcements') }}" class="btn btn-outline btn-sm">View All &rarr;</a>
+  </div>
+  <div class="card-body">
+    {% if announcements %}
+      <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+        {% for ann in announcements %}
+          <div style="padding: 0.75rem 0.9rem; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--bg-surface-subtle);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.25rem;">
+              <span style="font-weight: 600; font-size: 0.88rem; color: var(--text-main);">{{ ann.title }}</span>
+              <div style="display: flex; align-items: center; gap: 0.4rem;">
+                {% if ann.is_important %}
+                  <span class="badge badge-danger">Important</span>
+                {% endif %}
+                <span style="font-size: 0.75rem; color: var(--text-muted);">{{ ann.date }}</span>
+              </div>
+            </div>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.45; margin: 0;">
+              {{ ann.description }}
+            </p>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">No announcements at this time.</div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

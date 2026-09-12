@@ -1,0 +1,1648 @@
+/* ==========================================================================
+   Rajalakshmi Institute of Technology — Halls of Residence
+   Academic Institutional Portal Design System
+   A dignified, human-crafted university administration interface.
+   Style: Classic Collegiate Heritage / Academic Ledger & Gazette
+   ========================================================================== */
+
+:root {
+  /* RIT Official Portal Palette (Royal Blue & Pure White) */
+  --primary: #007bff;
+  --primary-dark: #0056b3;
+  --primary-hover: #0069d9;
+  --primary-tint: #e7f1ff;
+  --primary-subtle: #cfe2ff;
+  --primary-navy: var(--primary);
+  --primary-navy-dark: var(--primary-dark);
+
+  /* Sidebar Theme (Dark Charcoal/Slate matching ims.ritchennai.edu.in) */
+  --sidebar-bg: #2f353a;
+  --sidebar-text: #c2c7d0;
+  --sidebar-text-muted: #8a939e;
+  --sidebar-hover-bg: #3e444a;
+  --sidebar-active-bg: #007bff;
+  --sidebar-active-color: #ffffff;
+  --sidebar-header-bg: #ffffff;
+
+  /* Surfaces & Canvas */
+  --bg-page: #f4f6f9;
+  --bg-surface: #ffffff;
+  --bg-surface-subtle: #f8f9fa;
+  --bg-surface-hover: #f1f3f5;
+  --bg-surface-active: #e9ecef;
+
+  /* Borders & Dividers */
+  --border-subtle: #edf2f7;
+  --border-medium: #dee2e6;
+  --border-strong: #ced4da;
+  --border-accent: #007bff;
+
+  /* Typography Colors (Harmonized with Sidebar Charcoal) */
+  --text-main: #2f353a;
+  --text-secondary: #495057;
+  --text-muted: #6c757d;
+  --text-inverse: #ffffff;
+  --slate-dark: #2f353a;
+  --slate-medium: #3e444a;
+
+  /* Status Badges */
+  --status-success-bg: #e6f7ec;
+  --status-success-border: #bbf7d0;
+  --status-success-text: #15803d;
+
+  --status-warning-bg: #fffbeb;
+  --status-warning-border: #fef08a;
+  --status-warning-text: #b45309;
+
+  --status-danger-bg: #fee2e2;
+  --status-danger-border: #fca5a5;
+  --status-danger-text: #b91c1c;
+
+  --status-info-bg: #e0f2fe;
+  --status-info-border: #bae6fd;
+  --status-info-text: #0369a1;
+
+  --status-neutral-bg: #f1f5f9;
+  --status-neutral-border: #cbd5e1;
+  --status-neutral-text: #475569;
+
+  /* Typography Stacks */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-sans);
+  --font-brand: var(--font-sans);
+  --font-mono: 'SFMono-Regular', Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Geometry */
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 24px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.03);
+  --shadow-modal: 0 16px 36px rgba(0, 0, 0, 0.16);
+
+  /* Layout dimensions */
+  --sidebar-width: 250px;
+  --topbar-height: 56px;
+}
+
+/* Dark Collegiate Mode (Warm Obsidian Espresso & Muted Crimson) */
+[data-theme="dark"] {
+  --bg-masthead: #0b2e4f;
+  --bg-page: #101a24;
+  --bg-surface: #162633;
+  --bg-surface-subtle: #1d2e3d;
+  --bg-surface-hover: #233748;
+  --bg-surface-active: #2a475e;
+
+  --border-subtle: #332b2e;
+  --border-medium: #473d42;
+  --border-strong: #61545a;
+
+  --text-main: #f3efe9;
+  --text-secondary: #d5cec4;
+  --text-muted: #9e958c;
+
+  --primary: #145ea3;
+  --primary-dark: #0d4478;
+  --primary-hover: #1f7ad5;
+  --primary-tint: rgba(20, 94, 163, 0.15);
+  --primary-subtle: rgba(20, 94, 163, 0.25);
+
+  --status-success-bg: rgba(20, 83, 45, 0.2);
+  --status-success-border: rgba(34, 197, 94, 0.35);
+  --status-success-text: #86efac;
+
+  --status-warning-bg: rgba(146, 64, 14, 0.2);
+  --status-warning-border: rgba(245, 158, 11, 0.35);
+  --status-warning-text: #fde047;
+
+  --status-danger-bg: rgba(161, 43, 60, 0.22);
+  --status-danger-border: rgba(244, 63, 94, 0.35);
+  --status-danger-text: #fda4af;
+
+  --status-info-bg: rgba(30, 64, 175, 0.2);
+  --status-info-border: rgba(59, 130, 246, 0.35);
+  --status-info-text: #bfdbfe;
+
+  --status-neutral-bg: rgba(63, 59, 55, 0.25);
+  --status-neutral-border: rgba(115, 109, 103, 0.3);
+  --status-neutral-text: #d5cec4;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 6px 12px rgba(0, 0, 0, 0.6);
+}
+
+/* Base Reset & Core Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+
+code, pre, .mono {
+  font-family: var(--font-mono);
+}
+
+/* ==========================================================================
+   1. Institutional Top Masthead Banner
+   ========================================================================== */
+.institution-masthead-strip {
+  background-color: var(--bg-masthead);
+  color: #f7ede2;
+  height: var(--masthead-height);
+  border-bottom: 1px solid rgba(217, 119, 6, 0.3);
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  padding: 0 1rem;
+  z-index: 100;
+  user-select: none;
+}
+
+.masthead-inner {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.masthead-left, .masthead-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.masthead-crest-icon {
+  display: inline-flex;
+  align-items: center;
+  color: #fbbf24;
+}
+
+.masthead-inst-title {
+  font-family: var(--font-brand);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+}
+
+.masthead-inst-dept {
+  font-weight: 500;
+  color: #fbd5d9;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+}
+
+.masthead-sep {
+  color: rgba(251, 191, 36, 0.4);
+  font-size: 0.7rem;
+}
+
+.masthead-tag {
+  font-size: 0.7rem;
+  color: #e5d5ce;
+}
+
+.masthead-tag.highlight {
+  color: #fef08a;
+  font-weight: 600;
+}
+
+@media (max-width: 860px) {
+  .masthead-right { display: none; }
+}
+
+/* ==========================================================================
+   2. Application Shell (RIT Sidebar + White Header)
+   ========================================================================== */
+.app-layout {
+  display: flex;
+  flex: 1;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Sidebar */
+.app-sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 90;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 1px 0 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Crisp White Logo Brand Header */
+.sidebar-brand-wrapper {
+  background-color: #ffffff;
+  height: var(--topbar-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0 0.9rem 0 1rem;
+  border-bottom: 1px solid var(--border-medium);
+  border-right: 1px solid var(--border-medium);
+  flex-shrink: 0;
+}
+
+.sidebar-brand-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1;
+  min-width: 0;
+}
+
+.rit-main-logo {
+  width: auto;
+  height: 38px;
+  max-width: 190px;
+  object-fit: contain;
+  display: block;
+  vertical-align: middle;
+}
+
+/* Sidebar Search Bar Pill */
+.sidebar-search-box {
+  padding: 0.85rem 0.85rem 0.4rem;
+}
+
+.search-input-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.search-input-wrap svg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+  pointer-events: none;
+}
+
+.search-input-wrap input {
+  width: 100%;
+  height: 36px;
+  padding: 6px 14px 6px 36px;
+  border-radius: 20px;
+  background-color: #ffffff;
+  border: 1px solid #ced4da;
+  font-size: 0.84rem;
+  color: #495057;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.search-input-wrap input::placeholder {
+  color: #868e96;
+}
+
+.search-input-wrap input:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.25);
+}
+
+/* Sidebar Navigation */
+.sidebar-nav {
+  flex: 1;
+  padding: 0.5rem 0.6rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nav-section-title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--sidebar-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.6rem 0.75rem 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 24px;
+  color: #c2c7d0;
+  font-size: 0.86rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.nav-link svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+.nav-link:hover {
+  background-color: var(--sidebar-hover-bg);
+  color: #ffffff;
+  text-decoration: none;
+}
+.nav-link:hover svg {
+  opacity: 1;
+}
+
+.nav-link.active {
+  background-color: #007bff !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.4);
+}
+.nav-link.active svg {
+  opacity: 1;
+  stroke: #ffffff;
+}
+
+.nav-badge {
+  margin-left: auto;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+.nav-badge.danger {
+  background-color: #dc3545;
+}
+.nav-badge.amber {
+  background-color: #f59e0b;
+}
+
+/* Sidebar Footer */
+.sidebar-footer {
+  padding: 0.75rem 0.85rem;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.user-compact {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #007bff;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.82rem;
+  flex-shrink: 0;
+}
+
+.user-details {
+  overflow: hidden;
+  line-height: 1.2;
+}
+
+.user-details .name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-details .role-badge {
+  font-size: 0.7rem;
+  color: #adb5bd;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.logout-btn {
+  margin-left: auto;
+  color: #adb5bd;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+.logout-btn:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   3. Main Content View & Top Header
+   ========================================================================== */
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: var(--bg-page);
+}
+
+.app-header {
+  height: var(--topbar-height);
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--border-medium);
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.sidebar-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #495057;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+}
+.sidebar-toggle-btn:hover {
+  background-color: #f1f3f5;
+  color: #212529;
+}
+
+.header-title-wrap h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  color: #212529;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.header-bell-btn {
+  background: transparent;
+  border: none;
+  color: #6c757d;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+.header-bell-btn:hover {
+  color: #007bff;
+  background-color: #f1f3f5;
+}
+
+/* RIT Royal Blue User Badge (Exactly matching ims.ritchennai.edu.in) */
+.rit-user-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #007bff;
+  color: #ffffff;
+  padding: 7px 15px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  box-shadow: 0 1px 3px rgba(0, 123, 255, 0.3);
+  cursor: default;
+  white-space: nowrap;
+}
+
+.rit-user-badge svg {
+  flex-shrink: 0;
+}
+
+.role-switch-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 4px 9px;
+  background-color: #f8f9fa;
+  border: 1px solid var(--border-medium);
+  border-radius: 4px;
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+}
+
+.role-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.role-dot.warden { background-color: #007bff; }
+.role-dot.student { background-color: #10b981; }
+
+.btn-switch-role {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 4px 9px;
+  background-color: #e7f1ff;
+  border: 1px solid #b8daff;
+  border-radius: 4px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #007bff;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+.btn-switch-role:hover {
+  background-color: #007bff;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  background: #f8f9fa;
+  border: 1px solid var(--border-medium);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.icon-btn:hover {
+  background: #e9ecef;
+  color: #212529;
+}
+
+/* Page Container */
+.page-container {
+  padding: 1.5rem;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   4. RIT Cards & Surfaces
+   ========================================================================== */
+.card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  margin-bottom: 1.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 1rem 1.35rem;
+  border-bottom: 1px solid var(--border-subtle);
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.card-header h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--slate-dark);
+  margin: 0;
+}
+
+.collegiate-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #2f353a 0%, #3e444a 100%);
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 4px rgba(47, 53, 58, 0.2);
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
+}
+
+.card-header p {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 2px 0 0 0;
+}
+
+.card-body {
+  padding: 1.35rem;
+}
+
+.card-footer {
+  padding: 0.85rem 1.35rem;
+  border-top: 1px solid var(--border-subtle);
+  background-color: var(--bg-surface-subtle);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   5. RIT Stat Cards with Circular Ring Gauges
+   ========================================================================== */
+.stats-grid,
+.rit-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.stat-card,
+.rit-stat-card {
+  background-color: #ffffff;
+  border: 1px solid var(--border-medium);
+  border-radius: 10px;
+  padding: 1.15rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 6px rgba(47, 53, 58, 0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.stat-card:hover,
+.rit-stat-card:hover {
+  transform: translateY(-2px);
+  border-color: #ced4da;
+  box-shadow: 0 6px 14px rgba(47, 53, 58, 0.08);
+}
+
+/* Circular Ring Progress Gauges */
+.ring-gauge-wrap {
+  position: relative;
+  width: 66px;
+  height: 66px;
+  flex-shrink: 0;
+}
+
+.ring-gauge {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ring-gauge.green {
+  background: conic-gradient(#10b981 0% 86.8%, #e2e8f0 86.8% 100%);
+}
+.ring-gauge.teal {
+  background: conic-gradient(#06b6d4 0% 97%, #e2e8f0 97% 100%);
+}
+.ring-gauge.orange {
+  background: conic-gradient(#f59e0b 0% 100%, #e2e8f0 100% 100%);
+}
+.ring-gauge.neutral {
+  background: #e2e8f0;
+}
+
+.ring-inner {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+  line-height: 1.1;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.stat-info,
+.ring-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.stat-info .label,
+.ring-info .label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  margin-bottom: 0.2rem;
+}
+
+.stat-info .value,
+.ring-info .value {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--slate-dark);
+  line-height: 1.2;
+  margin-bottom: 0.15rem;
+}
+
+.stat-info .meta,
+.ring-info .meta {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   6. Data Tables (Registrar Register Style)
+   ========================================================================== */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 0;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+  text-align: left;
+}
+
+.data-table th {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  background-color: var(--bg-surface-subtle);
+  border-bottom: 2px solid var(--border-medium);
+  border-top: 1px solid var(--border-subtle);
+  padding: 0.75rem 1rem;
+  white-space: nowrap;
+}
+
+.data-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  vertical-align: middle;
+}
+
+.data-table tr:hover td {
+  background-color: var(--bg-surface-hover);
+}
+
+.data-table code {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  background-color: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  padding: 1px 5px;
+  border-radius: var(--radius-xs);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   7. Official University Stamps & Badges
+   ========================================================================== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 2px 7px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: var(--radius-xs);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.badge-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+.badge-success {
+  background-color: var(--status-success-bg);
+  border: 1px solid var(--status-success-border);
+  color: var(--status-success-text);
+}
+
+.badge-amber, .badge-warning {
+  background-color: var(--status-warning-bg);
+  border: 1px solid var(--status-warning-border);
+  color: var(--status-warning-text);
+}
+
+.badge-danger {
+  background-color: var(--status-danger-bg);
+  border: 1px solid var(--status-danger-border);
+  color: var(--status-danger-text);
+}
+
+.badge-info {
+  background-color: var(--status-info-bg);
+  border: 1px solid var(--status-info-border);
+  color: var(--status-info-text);
+}
+
+.badge-neutral {
+  background-color: var(--status-neutral-bg);
+  border: 1px solid var(--status-neutral-border);
+  color: var(--slate-dark);
+}
+
+/* ==========================================================================
+   8. Tactile Form Controls & Buttons
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.95rem;
+  font-family: var(--font-sans);
+  font-size: 0.83rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1.4;
+  transition: all 0.15s ease;
+}
+.btn:hover {
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary-hover);
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 123, 255, 0.25);
+}
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-dark);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.35);
+}
+
+.btn-outline {
+  background-color: var(--bg-surface);
+  border-color: var(--border-medium);
+  color: var(--slate-dark);
+  box-shadow: var(--shadow-xs);
+}
+.btn-outline:hover {
+  background-color: var(--bg-surface-hover);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* Profile Metadata Stacks */
+.profile-meta-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.profile-meta-val {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--slate-dark);
+}
+
+.btn-sm {
+  padding: 0.3rem 0.65rem;
+  font-size: 0.77rem;
+}
+
+.form-group {
+  margin-bottom: 1.15rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  margin-bottom: 0.35rem;
+}
+
+.form-control, .form-select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-subtle);
+}
+
+textarea.form-control {
+  resize: vertical;
+}
+
+/* Grid Utilities */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+.grid-2-1 {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr;
+  gap: 1.25rem;
+}
+@media (max-width: 960px) {
+  .grid-2-1 { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   9. Modal Dialogs & Toast Notifications
+   ========================================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(18, 14, 15, 0.65);
+  backdrop-filter: blur(2px);
+  z-index: 999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.modal-backdrop.active {
+  display: flex;
+}
+
+.modal-dialog {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  width: 100%;
+  max-width: 520px;
+  box-shadow: var(--shadow-modal);
+  position: relative;
+  overflow: hidden;
+}
+.modal-dialog.modal-lg {
+  max-width: 760px;
+}
+
+.modal-header {
+  padding: 1rem 1.35rem;
+  background-color: var(--bg-surface-subtle);
+  border-bottom: 1px solid var(--border-medium);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: var(--text-main);
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 1;
+}
+.modal-close-btn:hover {
+  color: var(--text-main);
+}
+
+.modal-body {
+  padding: 1.35rem;
+  max-height: 78vh;
+  overflow-y: auto;
+}
+
+.modal-footer {
+  padding: 0.85rem 1.35rem;
+  background-color: var(--bg-surface-subtle);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+/* Toast Notifications */
+.toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.toast {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-left: 3px solid var(--primary);
+  padding: 0.65rem 0.95rem;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  font-size: 0.82rem;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.toast.success { border-left-color: #15803d; }
+.toast.danger, .toast.error { border-left-color: #991b1b; }
+.toast.info { border-left-color: #1e40af; }
+
+/* ==========================================================================
+   10. Responsive Design System (Mobile, Tablet, Desktop)
+   ========================================================================== */
+
+/* Mobile Sidebar Backdrop */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(10, 16, 24, 0.6);
+  backdrop-filter: blur(2px);
+  z-index: 950;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.sidebar-backdrop.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Sidebar Close Button */
+.sidebar-close-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  margin-left: auto;
+  border-radius: var(--radius-xs);
+  align-self: center;
+  flex-shrink: 0;
+}
+.sidebar-close-btn:hover {
+  color: #111827;
+  background-color: rgba(17, 24, 39, 0.06);
+}
+
+/* Tablet (Screens <= 1024px) */
+@media (max-width: 1024px) {
+  .page-container {
+    padding: 1.25rem;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+  }
+  .grid-2-1 {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Mobile & Small Tablets (Screens <= 880px) */
+@media (max-width: 880px) {
+  .sidebar-toggle-btn {
+    display: inline-flex;
+  }
+  .sidebar-close-btn {
+    display: inline-flex;
+  }
+  .app-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100vh;
+    width: 270px;
+    max-width: 85vw;
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-modal);
+    z-index: 1000;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .app-sidebar.open {
+    transform: translateX(0);
+  }
+  .app-header {
+    padding: 0 1rem;
+    height: 50px;
+  }
+  .page-container {
+    padding: 1rem;
+  }
+  .card-header {
+    padding: 0.85rem 1rem;
+  }
+  .card-body {
+    padding: 1rem;
+  }
+}
+
+/* Mobile Handhelds (Screens <= 640px) */
+@media (max-width: 640px) {
+  .header-title-wrap h2 {
+    font-size: 0.98rem;
+  }
+  .role-switch-badge {
+    padding: 3px 6px;
+    font-size: 0.72rem;
+  }
+  .btn-switch-role {
+    padding: 3px 6px;
+    font-size: 0.72rem;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.65rem;
+  }
+  .stat-card {
+    padding: 0.75rem 0.85rem;
+  }
+  .stat-info .value {
+    font-size: 1.25rem;
+  }
+  .grid-2 {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+  .data-table th,
+  .data-table td {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.8rem;
+  }
+  .modal-dialog {
+    margin: 0.5rem;
+    max-width: calc(100vw - 1rem);
+  }
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding: 0.85rem 1rem;
+  }
+}
+
+/* Small Handhelds (Screens <= 440px) */
+@media (max-width: 440px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .role-switch-badge .role-text {
+    display: none;
+  }
+  .header-left {
+    gap: 0.5rem;
+  }
+  .header-right {
+    gap: 0.4rem;
+  }
+  .app-header {
+    padding: 0 0.65rem;
+  }
+  .page-container {
+    padding: 0.75rem 0.65rem;
+  }
+}
+
+/* ==========================================================================
+   11. Floating Chatbot Widget (Modern Website Chat Bubble)
+   ========================================================================== */
+.floating-chatbot-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 2.5px solid #007bff;
+  box-shadow: 0 4px 18px rgba(0, 123, 255, 0.38), 0 2px 8px rgba(0, 0, 0, 0.12);
+  padding: 0;
+  cursor: pointer;
+  z-index: 1040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+  outline: none;
+}
+
+.floating-chatbot-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 26px rgba(0, 123, 255, 0.48), 0 3px 10px rgba(0, 0, 0, 0.16);
+  border-color: #0056b3;
+}
+
+.floating-chatbot-btn:active {
+  transform: scale(0.94);
+}
+
+.floating-chatbot-btn.panel-open {
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.25), 0 6px 20px rgba(0, 123, 255, 0.4);
+}
+
+.floating-chatbot-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  pointer-events: none;
+}
+
+.floating-chatbot-ping {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 13px;
+  height: 13px;
+  background-color: #10b981;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Floating Chat Panel */
+.floating-chat-panel {
+  position: fixed;
+  bottom: 92px;
+  right: 24px;
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  height: 490px;
+  max-height: calc(100vh - 115px);
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 16px;
+  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.06);
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px) scale(0.95);
+  transform-origin: bottom right;
+  transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.22s ease;
+}
+
+.floating-chat-panel.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+/* Panel Header */
+.chat-panel-header {
+  padding: 0.8rem 1rem;
+  background: linear-gradient(135deg, #2f353a 0%, #3e444a 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+.chat-panel-header-info {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.chat-panel-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #007bff;
+  background: #ffffff;
+  flex-shrink: 0;
+}
+
+.chat-panel-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.chat-panel-status {
+  font-size: 0.72rem;
+  color: #c2c7d0;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 2px;
+}
+
+.chat-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #10b981;
+  display: inline-block;
+}
+
+.chat-panel-close-btn {
+  background: none;
+  border: none;
+  color: #c2c7d0;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease;
+}
+.chat-panel-close-btn:hover {
+  color: #ffffff;
+}
+
+/* Quick Question Chips */
+.chat-panel-quick-chips {
+  padding: 0.55rem 0.75rem;
+  background: #f8f9fa;
+  border-bottom: 1px solid #edf2f7;
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  white-space: nowrap;
+  flex-shrink: 0;
+  scrollbar-width: none;
+}
+.chat-panel-quick-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.chat-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  font-size: 0.73rem;
+  font-weight: 600;
+  background-color: #ffffff;
+  border: 1px solid #ced4da;
+  border-radius: 14px;
+  color: #2f353a;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+.chat-chip:hover {
+  border-color: #007bff;
+  color: #007bff;
+  background-color: #e7f1ff;
+}
+
+/* Chat Messages */
+.chat-panel-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background-color: #f8f9fa;
+}
+
+.chat-bubble {
+  max-width: 85%;
+  padding: 0.65rem 0.85rem;
+  border-radius: 12px;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.chat-bubble-bot {
+  align-self: flex-start;
+  background-color: #ffffff;
+  color: #2f353a;
+  border: 1px solid #e2e8f0;
+  border-bottom-left-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.chat-bubble-bot .chat-bubble-sender {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #007bff;
+  margin-bottom: 2px;
+}
+
+.chat-bubble-user {
+  align-self: flex-end;
+  background-color: #007bff;
+  color: #ffffff;
+  border-bottom-right-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+}
+
+.chat-bubble-user .chat-bubble-sender {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #cfe2ff;
+  margin-bottom: 2px;
+  text-align: right;
+}
+
+/* Chat Input Form */
+.chat-panel-form {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.65rem 0.75rem;
+  background-color: #ffffff;
+  border-top: 1px solid #edf2f7;
+  flex-shrink: 0;
+}
+
+.chat-panel-input {
+  flex: 1;
+  height: 38px;
+  padding: 0 0.9rem;
+  border: 1px solid #ced4da;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #2f353a;
+  outline: none;
+  background-color: #f8f9fa;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.chat-panel-input:focus {
+  border-color: #80bdff;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+.chat-panel-send-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: #007bff;
+  border: none;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+.chat-panel-send-btn:hover {
+  background-color: #0069d9;
+  transform: scale(1.05);
+}
+.chat-panel-send-btn:active {
+  transform: scale(0.95);
+}
+
+/* Responsive adjustment for Mobile */
+@media (max-width: 600px) {
+  .floating-chatbot-btn {
+    bottom: 16px;
+    right: 16px;
+    width: 50px;
+    height: 50px;
+  }
+  .floating-chat-panel {
+    bottom: 74px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+    max-width: none;
+    height: calc(100vh - 96px);
+    max-height: 520px;
+    border-radius: 14px;
+  }
+}

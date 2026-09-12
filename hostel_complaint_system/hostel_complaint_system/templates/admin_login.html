@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Warden login — Hostel Desk{% endblock %}
+{% block content %}
+  <div class="card" style="max-width: 400px; margin: 0 auto;">
+    <h2>Warden login</h2>
+    <form method="post" action="{{ url_for('admin_login') }}">
+      <div class="field">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required autofocus>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%;">Log in</button>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}{{ complaint.code }} — Hostel Desk{% endblock %}
+{% block content %}
+  <p><a href="{{ url_for('admin_dashboard') }}">&larr; Back to dashboard</a></p>
+
+  <div class="hero" style="margin-bottom: 24px;">
+    <h1>{{ complaint.code }}</h1>
+    <span class="tag tag-{{ complaint.status.lower().replace(' ', '-') }}">{{ complaint.status }}</span>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <dl class="detail-grid">
+        <dt>Student</dt><dd>{{ complaint.student_name }} ({{ complaint.roll_number }})</dd>
+        <dt>Location</dt><dd>{{ complaint.hostel_block }}, Room {{ complaint.room_number }}</dd>
+        <dt>Category</dt><dd>{{ complaint.category }}</dd>
+        <dt>Priority</dt><dd><span class="priority-flag priority-{{ complaint.priority }}"></span>{{ complaint.priority }}</dd>
+        <dt>Filed</dt><dd>{{ complaint.created_at.strftime('%d %b %Y, %I:%M %p') }}</dd>
+        <dt>Last updated</dt><dd>{{ complaint.updated_at.strftime('%d %b %Y, %I:%M %p') }}</dd>
+      </dl>
+      <dt style="color: var(--ink-soft); font-size: 0.82rem;">Description</dt>
+      <p>{{ complaint.description }}</p>
+    </div>
+
+    <div class="card">
+      <h3>Update</h3>
+      <form method="post" action="{{ url_for('complaint_detail', complaint_id=complaint.id) }}">
+        <div class="field">
+          <label for="status">Status</label>
+          <select id="status" name="status">
+            {% for s in statuses %}
+              <option value="{{ s }}" {% if s == complaint.status %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="field">
+          <label for="admin_remarks">Note for the student</label>
+          <textarea id="admin_remarks" name="admin_remarks" placeholder="What was done, or what's next">{{ complaint.admin_remarks or '' }}</textarea>
+        </div>
+        <button type="submit" class="btn-primary">Save update</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

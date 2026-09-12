@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Fees & Payment Receipts | Student Portal{% endblock %}
+{% block page_title %}Hostel Dues, Invoices & Payment Receipts{% endblock %}
+{% block breadcrumb %}Fees & Receipts{% endblock %}
+
+{% block content %}
+<!-- Top Summary Cards -->
+<div class="stats-grid">
+  <div class="stat-card emerald">
+    <div class="stat-info">
+      <div class="label">Current Term Status</div>
+      <div class="value" style="color: #059669;">Cleared</div>
+      <div class="meta">
+        <span class="badge badge-success">No Pending Dues</span>
+      </div>
+    </div>
+    <div class="stat-icon-wrap">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-info">
+      <div class="label">Monsoon 2026 Billed</div>
+      <div class="value">₹ 46,000</div>
+      <div class="meta">Paid in Full on 02-Aug-2026</div>
+    </div>
+    <div class="stat-icon-wrap">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    </div>
+  </div>
+
+  <div class="stat-card indigo">
+    <div class="stat-info">
+      <div class="label">Caution Deposit In Trust</div>
+      <div class="value">₹ 6,000</div>
+      <div class="meta">Refundable upon course graduation</div>
+    </div>
+    <div class="stat-icon-wrap">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+  </div>
+</div>
+
+<!-- Invoices & Receipts Table -->
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h3>Hostel Fee Invoices & Clearance Receipts</h3>
+      <p>Official records of room rent, mess advances, and amenities levies</p>
+    </div>
+    <button class="btn btn-outline btn-sm" onclick="HMS.openModal('modal-official-receipt')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      <span>Print Latest Clearance Receipt</span>
+    </button>
+  </div>
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Invoice No.</th>
+          <th>Academic Term</th>
+          <th>Accommodation Allocation</th>
+          <th>Total Billed</th>
+          <th>Paid Date & Mode</th>
+          <th>Status</th>
+          <th style="text-align: right;">Official Receipt</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>INV-2026-0881</strong></td>
+          <td>Monsoon Semester 2026-27</td>
+          <td>Block B - Room 302 (Double Non-AC)</td>
+          <td><strong>₹ 46,000.00</strong></td>
+          <td>02-Aug-2026 &bull; UPI Virtual VPA</td>
+          <td><span class="badge badge-success"><span class="badge-dot"></span> Paid</span></td>
+          <td style="text-align: right;">
+            <button class="btn btn-outline btn-sm" onclick="HMS.openModal('modal-official-receipt')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              <span>Download Receipt</span>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>INV-2026-0114</strong></td>
+          <td>Spring Semester 2025-26</td>
+          <td>Block B - Room 104 (Triple Economy)</td>
+          <td><strong>₹ 42,500.00</strong></td>
+          <td>05-Jan-2026 &bull; NetBanking</td>
+          <td><span class="badge badge-success"><span class="badge-dot"></span> Paid</span></td>
+          <td style="text-align: right;">
+            <button class="btn btn-outline btn-sm" onclick="HMS.openModal('modal-official-receipt')">
+              <span>View Receipt</span>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>INV-2025-0789</strong></td>
+          <td>Monsoon Semester 2025-26</td>
+          <td>Block B - Room 104 (Triple Economy)</td>
+          <td><strong>₹ 42,500.00</strong></td>
+          <td>18-Jul-2025 &bull; SBI Demand Draft</td>
+          <td><span class="badge badge-success"><span class="badge-dot"></span> Paid</span></td>
+          <td style="text-align: right;">
+            <button class="btn btn-outline btn-sm" onclick="HMS.openModal('modal-official-receipt')">
+              <span>View Receipt</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

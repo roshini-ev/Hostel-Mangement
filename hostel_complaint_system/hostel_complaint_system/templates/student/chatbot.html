@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Chatbot{% endblock %}
+{% block page_title %}Hostel Assistant{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 800px; margin: 0 auto;">
+  <div class="card-header">
+    <div style="display: flex; align-items: center; gap: 0.6rem;">
+      <div class="collegiate-avatar" style="width: 32px; height: 32px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div>
+        <h3 style="font-size: 1rem; margin: 0;">Hostel Assistant</h3>
+      </div>
+    </div>
+    <span class="badge badge-success">Online</span>
+  </div>
+
+  <div class="card-body" style="padding: 1rem;">
+    <!-- Quick Questions -->
+    <div style="margin-bottom: 0.75rem;">
+      <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.4rem;">
+        Quick Questions:
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+        <button type="button" class="btn btn-outline btn-sm quick-question-btn" data-query="What are the room types in the hostel?">
+          Room Types
+        </button>
+        <button type="button" class="btn btn-outline btn-sm quick-question-btn" data-query="Where do I stay and what is my room number?">
+          My Room
+        </button>
+        <button type="button" class="btn btn-outline btn-sm quick-question-btn" data-query="How do I apply for an outpass?">
+          Apply Outpass
+        </button>
+        <button type="button" class="btn btn-outline btn-sm quick-question-btn" data-query="How do I submit a maintenance complaint?">
+          Report Issue
+        </button>
+        <button type="button" class="btn btn-outline btn-sm quick-question-btn" data-query="What are the night roll call and curfew rules?">
+          Curfew & Attendance
+        </button>
+        <button type="button" class="btn btn-outline btn-sm quick-question-btn" data-query="Who do I contact in case of emergency?">
+          Contacts
+        </button>
+      </div>
+    </div>
+
+    <!-- Chat Messages Window -->
+    <div id="chat-window" style="height: 320px; overflow-y: auto; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.85rem; background: var(--bg-surface-subtle); display: flex; flex-direction: column; gap: 0.65rem;">
+      <!-- Welcome Message -->
+      <div style="align-self: flex-start; max-width: 85%; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.65rem 0.85rem;">
+        <div style="font-size: 0.72rem; font-weight: 600; color: var(--primary); margin-bottom: 2px;">Assistant</div>
+        <div style="font-size: 0.86rem; color: var(--text-main); line-height: 1.45;">
+          Hi {{ student.name }}! How can I help you today? You can ask about rooms, outpasses, complaints, or contacts.
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Input Form -->
+    <form id="chat-form" style="display: flex; gap: 0.4rem; margin-top: 0.75rem;">
+      <input type="text" id="chat-input" class="form-control" placeholder="Ask a question..." autocomplete="off" required style="height: 38px;">
+      <button type="submit" id="chat-send-btn" class="btn btn-primary" style="height: 38px; padding: 0 1rem;">
+        <span>Send</span>
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const chatForm = document.getElementById('chat-form');
+  const chatInput = document.getElementById('chat-input');
+  const chatWindow = document.getElementById('chat-window');
+
+  function appendMessage(sender, text, isUser = false) {
+    const msgDiv = document.createElement('div');
+    msgDiv.style.alignSelf = isUser ? 'flex-end' : 'flex-start';
+    msgDiv.style.maxWidth = '85%';
+    msgDiv.style.background = isUser ? 'var(--primary)' : 'var(--bg-surface)';
+    msgDiv.style.color = isUser ? '#ffffff' : 'var(--text-main)';
+    msgDiv.style.border = isUser ? 'none' : '1px solid var(--border-subtle)';
+    msgDiv.style.borderRadius = 'var(--radius-sm)';
+    msgDiv.style.padding = '0.65rem 0.85rem';
+
+    const header = document.createElement('div');
+    header.style.fontSize = '0.72rem';
+    header.style.fontWeight = '600';
+    header.style.marginBottom = '2px';
+    header.style.color = isUser ? '#fef08a' : 'var(--primary)';
+    header.textContent = sender;
+
+    const body = document.createElement('div');
+    body.style.fontSize = '0.86rem';
+    body.style.lineHeight = '1.45';
+    body.textContent = text;
+
+    msgDiv.appendChild(header);
+    msgDiv.appendChild(body);
+    chatWindow.appendChild(msgDiv);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }
+
+  async function sendQuery(query) {
+    if (!query) return;
+    appendMessage('You', query, true);
+
+    try {
+      const response = await fetch("{{ url_for('api_chat') }}", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: query })
+      });
+      const data = await response.json();
+      appendMessage('Assistant', data.reply || 'No reply.', false);
+    } catch (err) {
+      appendMessage('Assistant', 'Unable to reach assistant.', false);
+    }
+  }
+
+  chatForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const q = chatInput.value.trim();
+    if (!q) return;
+    chatInput.value = '';
+    sendQuery(q);
+  });
+
+  document.querySelectorAll('.quick-question-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      sendQuery(btn.getAttribute('data-query'));
+    });
+  });
+});
+</script>
+{% endblock %}

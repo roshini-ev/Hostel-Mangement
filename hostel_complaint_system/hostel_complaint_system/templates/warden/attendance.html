@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Attendance Register{% endblock %}
+{% block page_title %}Attendance{% endblock %}
+{% block breadcrumb %}Attendance{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h3>Attendance Register</h3>
+    </div>
+  </div>
+
+  <!-- Controls Strip: Date Picker & Quick Actions -->
+  <div class="card-body" style="background-color: var(--bg-surface-subtle); border-bottom: 1px solid var(--border-subtle); padding: 0.85rem 1.25rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+      <!-- Date Selector Form -->
+      <form method="GET" action="{{ url_for('warden_attendance') }}" style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+        <label for="att-date" style="font-size: 0.85rem; font-weight: 600; color: var(--text-main);">Date:</label>
+        <input type="date" id="att-date" name="date" value="{{ selected_date }}" class="form-control" style="width: auto;" onchange="this.form.submit()">
+        <button type="submit" class="btn btn-outline btn-sm">Load</button>
+      </form>
+
+      <!-- Quick Bulk Actions -->
+      <div style="display: flex; gap: 0.5rem;">
+        <button type="button" class="btn btn-outline btn-sm" onclick="markAllStatus('Present')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Mark All Present</span>
+        </button>
+        <button type="button" class="btn btn-outline btn-sm" onclick="markAllStatus('Absent')" style="color: #dc2626;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <span>Mark All Absent</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Attendance Marking Form -->
+  <form method="POST" action="{{ url_for('warden_attendance') }}">
+    <input type="hidden" name="attendance_date" value="{{ selected_date }}">
+
+    <div class="card-body" style="padding: 0;">
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Student ID</th>
+              <th>Year</th>
+              <th>Room</th>
+              <th>Status</th>
+              <th style="min-width: 200px;">Mark Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for student in students %}
+              <tr>
+                <td>
+                  <div style="font-weight: 600; color: var(--text-main);">{{ student.name }}</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted);">{{ student.dept }}</div>
+                </td>
+                <td><code>{{ student.student_id }}</code></td>
+                <td><span class="badge badge-neutral" style="font-weight: 600;">Year {{ student.year }}</span></td>
+                <td>
+                  <span class="badge badge-neutral" style="font-weight: 600;">Room {{ student.room_number }}</span>
+                </td>
+                <td>
+                  {% if student.current_status == 'Present' %}
+                    <span class="badge badge-success status-badge-{{ student.student_id }}"><span class="badge-dot"></span> Present</span>
+                  {% else %}
+                    <span class="badge badge-danger status-badge-{{ student.student_id }}"><span class="badge-dot"></span> Absent</span>
+                  {% endif %}
+                </td>
+                <td>
+                  <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <label style="display: inline-flex; align-items: center; gap: 0.35rem; cursor: pointer; font-size: 0.85rem; padding: 4px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: {% if student.current_status == 'Present' %}#ecfdf5{% else %}#ffffff{% endif %};">
+                      <input type="radio" name="status_{{ student.student_id }}" value="Present" class="attendance-radio att-present" {% if student.current_status == 'Present' %}checked{% endif %} onchange="updateBadge('{{ student.student_id }}', 'Present')">
+                      <span style="color: #166534; font-weight: 600;">Present</span>
+                    </label>
+
+                    <label style="display: inline-flex; align-items: center; gap: 0.35rem; cursor: pointer; font-size: 0.85rem; padding: 4px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: {% if student.current_status == 'Absent' %}#fef2f2{% else %}#ffffff{% endif %};">
+                      <input type="radio" name="status_{{ student.student_id }}" value="Absent" class="attendance-radio att-absent" {% if student.current_status == 'Absent' %}checked{% endif %} onchange="updateBadge('{{ student.student_id }}', 'Absent')">
+                      <span style="color: #991b1b; font-weight: 600;">Absent</span>
+                    </label>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Save Footer -->
+    <div class="card-footer" style="display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 1.25rem;">
+      <div style="font-size: 0.85rem; color: var(--text-secondary);">
+        Date: <strong>{{ selected_date }}</strong>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        <span>Save Attendance</span>
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function updateBadge(studentId, status) {
+  const badge = document.querySelector(`.status-badge-${studentId}`);
+  if (badge) {
+    if (status === 'Present') {
+      badge.className = `badge badge-success status-badge-${studentId}`;
+      badge.innerHTML = '<span class="badge-dot"></span> Present';
+    } else {
+      badge.className = `badge badge-danger status-badge-${studentId}`;
+      badge.innerHTML = '<span class="badge-dot"></span> Absent';
+    }
+  }
+}
+
+function markAllStatus(status) {
+  document.querySelectorAll(`.att-${status.toLowerCase()}`).forEach(radio => {
+    radio.checked = true;
+    const studentId = radio.name.replace('status_', '');
+    updateBadge(studentId, status);
+  });
+}
+</script>
+{% endblock %}

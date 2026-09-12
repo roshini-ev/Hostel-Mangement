@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}My Room{% endblock %}
+{% block page_title %}My Room{% endblock %}
+
+{% block content %}
+<!-- Room Overview -->
+<div class="stats-grid" style="margin-bottom: 1rem;">
+  <div class="stat-card">
+    <div class="stat-info">
+      <div class="label">Room Number</div>
+      <div class="value">Room {{ room.room_number if room else student.room_number }}</div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-info">
+      <div class="label">Room Type</div>
+      <div class="value" style="font-size: 1.1rem;">{{ room.room_type if room else student.room_type }}</div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-info">
+      <div class="label">Cooling</div>
+      <div class="value" style="font-size: 1.1rem;">
+        {% if 'Non-AC' in (room.room_type if room else student.room_type) %}Non-AC{% else %}AC{% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-info">
+      <div class="label">Occupancy</div>
+      <div class="value">{{ roommates|length }} / {{ room.capacity if room else 3 }}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Roommates List -->
+<div class="card">
+  <div class="card-header">
+    <h3>Roommates</h3>
+    <span class="badge badge-neutral">{{ roommates|length }} Students</span>
+  </div>
+  <div class="card-body" style="padding: 0;">
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Department</th>
+            <th>Year (1–4)</th>
+            <th>Phone</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r_student in roommates %}
+            <tr {% if r_student.student_id == student.student_id %}class="row-highlight"{% endif %}>
+              <td>
+                <strong>{{ r_student.name }}</strong>
+                {% if r_student.student_id == student.student_id %}
+                  <span class="badge badge-neutral" style="font-size: 0.68rem; margin-left: 4px;">You</span>
+                {% endif %}
+              </td>
+              <td><code>{{ r_student.student_id }}</code></td>
+              <td>{{ r_student.dept }}</td>
+              <td><span class="badge badge-neutral" style="font-weight: 600;">Year {{ r_student.year }}</span></td>
+              <td>{{ r_student.phone }}</td>
+            </tr>
+          {% else %}
+            <tr><td colspan="5" class="empty-state">No roommates assigned.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

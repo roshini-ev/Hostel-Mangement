@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Outpass Requests Management{% endblock %}
+{% block page_title %}Outpass Requests{% endblock %}
+{% block breadcrumb %}Outpass Requests{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h3>Outpass Requests</h3>
+    </div>
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+      <a href="{{ url_for('warden_leaves', status='all') }}" class="btn btn-sm {% if selected_status == 'all' %}btn-primary{% else %}btn-outline{% endif %}">
+        All ({{ leaves|length }})
+      </a>
+      <a href="{{ url_for('warden_leaves', status='pending') }}" class="btn btn-sm {% if selected_status == 'pending' %}btn-primary{% else %}btn-outline{% endif %}">
+        Pending
+      </a>
+      <a href="{{ url_for('warden_leaves', status='approved') }}" class="btn btn-sm {% if selected_status == 'approved' %}btn-primary{% else %}btn-outline{% endif %}">
+        Approved
+      </a>
+      <a href="{{ url_for('warden_leaves', status='rejected') }}" class="btn btn-sm {% if selected_status == 'rejected' %}btn-primary{% else %}btn-outline{% endif %}">
+        Rejected
+      </a>
+    </div>
+  </div>
+
+  <div class="card-body" style="padding: 0;">
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Room</th>
+            <th>Type</th>
+            <th>Duration</th>
+            <th>Reason</th>
+            <th>Applied</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for leave in leaves %}
+            <tr {% if leave.status == 'Pending' %}style="background-color: #fffbeb; font-weight: 500;"{% endif %}>
+              <td>
+                <div style="font-weight: 600; color: var(--text-main);">{{ leave.student_name }}</div>
+                <code style="font-size: 0.75rem;">{{ leave.student_id }}</code>
+              </td>
+              <td>
+                <span class="badge badge-neutral" style="font-weight: 600;">Room {{ leave.room_number }}</span>
+              </td>
+              <td>
+                <span style="font-weight: 500;">{{ leave.leave_type|replace('Leave', 'Outpass') }}</span>
+              </td>
+              <td>
+                <div style="font-size: 0.85rem;">{{ leave.start_date }}</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">to {{ leave.end_date }}</div>
+              </td>
+              <td style="max-width: 240px; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">
+                {{ leave.reason }}
+              </td>
+              <td style="font-size: 0.8rem; color: var(--text-muted);">
+                {{ leave.applied_on }}
+              </td>
+              <td>
+                {% if leave.status == 'Approved' %}
+                  <span class="badge badge-success"><span class="badge-dot"></span> Approved</span>
+                {% elif leave.status == 'Pending' %}
+                  <span class="badge badge-amber"><span class="badge-dot"></span> Pending</span>
+                {% elif leave.status == 'Rejected' %}
+                  <span class="badge badge-danger"><span class="badge-dot"></span> Rejected</span>
+                {% else %}
+                  <span class="badge badge-neutral">{{ leave.status }}</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if leave.status == 'Pending' %}
+                  <div style="display: flex; gap: 0.4rem;">
+                    <form method="POST" action="{{ url_for('warden_action_leave', leave_id=leave.id, action='approve') }}">
+                      <button type="submit" class="btn btn-primary btn-sm" style="padding: 4px 10px; font-size: 0.8rem;" title="Approve Request">
+                        Approve
+                      </button>
+                    </form>
+                    <form method="POST" action="{{ url_for('warden_action_leave', leave_id=leave.id, action='reject') }}">
+                      <button type="submit" class="btn btn-outline btn-sm" style="padding: 4px 10px; font-size: 0.8rem; color: #dc2626;" title="Reject Request">
+                        Reject
+                      </button>
+                    </form>
+                  </div>
+                {% else %}
+                  <span style="font-size: 0.8rem; color: var(--text-muted);">&mdash;</span>
+                {% endif %}
+              </td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="8" class="empty-state">No outpass requests found.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

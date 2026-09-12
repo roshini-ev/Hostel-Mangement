@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+{% block page_title %}Profile{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 700px; margin: 0 auto;">
+  <div class="card-header">
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+      <div class="collegiate-avatar" style="width: 44px; height: 44px; font-size: 1.1rem;">AS</div>
+      <div>
+        <h3 style="margin: 0; font-size: 1.1rem;">{{ student.name }}</h3>
+        <span style="font-size: 0.8rem; color: var(--text-secondary);">ID: <code>{{ student.student_id }}</code></span>
+      </div>
+    </div>
+    <span class="badge badge-success">Resident</span>
+  </div>
+
+  <div class="card-body">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+      <div>
+        <div class="profile-meta-label">Full Name</div>
+        <div class="profile-meta-val">{{ student.name }}</div>
+      </div>
+      <div>
+        <div class="profile-meta-label">Student ID</div>
+        <div class="profile-meta-val"><code>{{ student.student_id }}</code></div>
+      </div>
+      <div>
+        <div class="profile-meta-label">Department</div>
+        <div class="profile-meta-val">{{ student.dept }}</div>
+      </div>
+      <div>
+        <div class="profile-meta-label">Academic Year</div>
+        <div class="profile-meta-val"><strong style="color: var(--primary);">Year {{ student.year }}</strong> (Years 1 to 4)</div>
+      </div>
+      <div>
+        <div class="profile-meta-label">Phone</div>
+        <div class="profile-meta-val">+91 {{ student.phone }}</div>
+      </div>
+      <div>
+        <div class="profile-meta-label">Room Number</div>
+        <div class="profile-meta-val"><strong>Room {{ student.room_number }}</strong></div>
+      </div>
+      <div>
+        <div class="profile-meta-label">Room Type</div>
+        <div class="profile-meta-val">{{ student.room_type }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}System Settings & Configuration | Warden Portal{% endblock %}
+{% block page_title %}Hostel Policies & System Configuration{% endblock %}
+{% block breadcrumb %}System Settings{% endblock %}
+
+{% block content %}
+<form method="POST" action="{{ url_for('warden_settings') }}" onsubmit="event.preventDefault(); HMS.showToast('Hostel administration settings updated successfully.', 'success');">
+  <div class="grid-2">
+    <!-- Policy & Gate Timings -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h3>Curfew & Gate Security Policy</h3>
+          <p>Enforced at campus main gates and biometric turnstiles</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label class="form-label">Weekday Curfew Time (Monday - Friday)</label>
+          <input type="time" class="form-control" value="22:00" required>
+          <div class="form-hint">Turnstiles lock and late ledger activates automatically.</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Saturday & Eve of Holiday Curfew</label>
+          <input type="time" class="form-control" value="22:30" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Visitor Evening Cutoff Time</label>
+          <input type="time" class="form-control" value="20:00" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Night Roll Call Reporting Window</label>
+          <input type="text" class="form-control" value="09:15 PM – 09:45 PM" required>
+        </div>
+      </div>
+    </div>
+
+    <!-- Financial & Late Fee Rules -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h3>Billing & Fee Regulations</h3>
+          <p>Rules applied to student fee invoices and mess reconciliation</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label class="form-label">Grace Period Past Semester Due Date</label>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <input type="number" class="form-control" value="15" style="max-width: 120px;" required>
+            <span style="font-size: 0.88rem; color: var(--text-subtle);">Calendar Days</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Default Daily Late Fine (INR)</label>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <input type="number" class="form-control" value="100" style="max-width: 120px;" required>
+            <span style="font-size: 0.88rem; color: var(--text-subtle);">₹ per day</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Maximum Cumulative Late Fee Cap</label>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <input type="number" class="form-control" value="2500" style="max-width: 120px;" required>
+            <span style="font-size: 0.88rem; color: var(--text-subtle);">₹ per semester</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Caution Deposit Refund Processing Time</label>
+          <input type="text" class="form-control" value="30 Business Days upon clearance" readonly>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Emergency Contacts & Desk Numbers -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h3>Emergency Helplines & Warden Desk Registry</h3>
+        <p>Visible on student resident dashboard and automated gate passes</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div class="form-group">
+          <label class="form-label">Chief Warden Direct Mobile</label>
+          <input type="tel" class="form-control" value="+91 98450 11223" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Hostel Main Gate Control Room</label>
+          <input type="tel" class="form-control" value="+91 80 4041 2001" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Campus Health Center / Ambulance</label>
+          <input type="tel" class="form-control" value="+91 80 4041 108" required>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div style="font-size: 0.82rem; color: var(--text-subtle);">
+        Last administrative update performed: 01-Sep-2026 by Dr. K. S. Venkatesh
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <span>Save System Configuration</span>
+      </button>
+    </div>
+  </div>
+</form>
+{% endblock %}
